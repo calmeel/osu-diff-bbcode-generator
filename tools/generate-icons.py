@@ -38,7 +38,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--font", type=Path, default=FONT_PATH)
     parser.add_argument("--output", type=Path, default=OUTPUT_ROOT)
-    parser.add_argument("--size", type=int, default=64)
+    parser.add_argument("--size", type=int, default=22)
     parser.add_argument("--start", type=float, default=0.0)
     parser.add_argument("--end", type=float, default=9.0)
     parser.add_argument("--step", type=float, default=0.01)

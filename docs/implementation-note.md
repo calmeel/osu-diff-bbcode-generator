@@ -103,6 +103,7 @@ Generated range:
 - `0.00.png` through `9.00.png`
 - step: `0.01`
 - total: 901 files per mode
+- image size: `22x22`
 
 The generated icons use the osu!web-like SR background color formula for the icon glyph itself, including gamma 2.2 RGB interpolation. The app's difficulty text color formula is not baked into the PNG files.
 
