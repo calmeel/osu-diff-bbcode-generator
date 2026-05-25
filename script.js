@@ -541,7 +541,7 @@ function formatDifficultyName(diff, options) {
 }
 
 function stripOwnerPrefixFromDifficultyName(difficultyName) {
-  return difficultyName.replace(/^.+?[’']s\s+/, "");
+  return difficultyName.replace(/^.+?[\x27\u2019]s\s+/i, "");
 }
 
 function formatDiffIcon(diff) {

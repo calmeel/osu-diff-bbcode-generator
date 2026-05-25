@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -121,28 +120,42 @@ def rating_values(start: float, end: float, step: float) -> list[float]:
 def draw_icon(
     glyph: str,
     rating: float,
-    font: ImageFont.FreeTypeFont,
     size: int,
+    font_path: Path,
 ) -> Image.Image:
-    scale = 4
-    canvas_size = size * scale
-    image = Image.new("RGBA", (canvas_size, canvas_size), (0, 0, 0, 0))
+    padding = 1
+    target_size = size - padding * 2
+    render_scale = 8
+    render_size = size * render_scale * 4
+    font = ImageFont.truetype(str(font_path), size * render_scale * 4)
+    image = Image.new("RGBA", (render_size, render_size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
 
     bbox = draw.textbbox((0, 0), glyph, font=font)
     text_width = bbox[2] - bbox[0]
     text_height = bbox[3] - bbox[1]
-    x = (canvas_size - text_width) / 2 - bbox[0]
-    y = (canvas_size - text_height) / 2 - bbox[1]
+    x = (render_size - text_width) / 2 - bbox[0]
+    y = (render_size - text_height) / 2 - bbox[1]
 
     draw.text((x, y), glyph, font=font, fill=get_diff_colour(rating))
 
-    return image.resize((size, size), Image.Resampling.LANCZOS)
+    alpha_bbox = image.getchannel("A").getbbox()
+
+    if alpha_bbox is None:
+        return Image.new("RGBA", (size, size), (0, 0, 0, 0))
+
+    glyph_image = image.crop(alpha_bbox)
+    fitted_glyph = glyph_image.resize(
+        (target_size, target_size),
+        Image.Resampling.LANCZOS,
+    )
+    icon = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    icon.alpha_composite(fitted_glyph, (padding, padding))
+
+    return icon
 
 
 def generate_icons(args: argparse.Namespace) -> int:
-    font_size = math.floor(args.size * 0.72) * 4
-    font = ImageFont.truetype(str(args.font), font_size)
     count = 0
 
     for mode, glyph in MODES.items():
@@ -150,7 +163,7 @@ def generate_icons(args: argparse.Namespace) -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
 
         for rating in rating_values(args.start, args.end, args.step):
-            icon = draw_icon(glyph, rating, font, args.size)
+            icon = draw_icon(glyph, rating, args.size, args.font)
             icon.save(output_dir / f"{rating:.2f}.png")
             count += 1
 
