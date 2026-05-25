@@ -32,15 +32,6 @@ DIFFICULTY_COLOUR_STOPS = [
     (9, "#000000"),
 ]
 
-DIFFICULTY_TEXT_COLOUR_STOPS = [
-    (9, "#F6F05C"),
-    (9.9, "#FF8068"),
-    (10.6, "#FF4E6F"),
-    (11.5, "#C645B8"),
-    (12.4, "#6563DE"),
-]
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate local SR-colored osu! mode icons."
@@ -116,16 +107,6 @@ def get_diff_colour(rating: float) -> str:
     return scale_colour(rating, DIFFICULTY_COLOUR_STOPS)
 
 
-def get_diff_text_colour(rating: float) -> str:
-    if rating < 6.5:
-        return "#000000"
-
-    if rating < 9:
-        return "#F6F05C"
-
-    return scale_colour(rating, DIFFICULTY_TEXT_COLOUR_STOPS)
-
-
 def rating_values(start: float, end: float, step: float) -> list[float]:
     start_int = round(start * 100)
     end_int = round(end * 100)
@@ -145,14 +126,8 @@ def draw_icon(
 ) -> Image.Image:
     scale = 4
     canvas_size = size * scale
-    padding = max(2, round(size * 0.06)) * scale
     image = Image.new("RGBA", (canvas_size, canvas_size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
-
-    draw.ellipse(
-        (padding, padding, canvas_size - padding, canvas_size - padding),
-        fill=get_diff_colour(rating),
-    )
 
     bbox = draw.textbbox((0, 0), glyph, font=font)
     text_width = bbox[2] - bbox[0]
@@ -160,7 +135,7 @@ def draw_icon(
     x = (canvas_size - text_width) / 2 - bbox[0]
     y = (canvas_size - text_height) / 2 - bbox[1]
 
-    draw.text((x, y), glyph, font=font, fill=get_diff_text_colour(rating))
+    draw.text((x, y), glyph, font=font, fill=get_diff_colour(rating))
 
     return image.resize((size, size), Image.Resampling.LANCZOS)
 

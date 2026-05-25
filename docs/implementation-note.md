@@ -98,7 +98,7 @@ Generated range:
 - step: `0.01`
 - total: 901 files per mode
 
-The generated icons use the same osu!web-like SR background and text color formulas as the app, including gamma 2.2 RGB interpolation.
+The generated icons use the osu!web-like SR background color formula for the icon glyph itself, including gamma 2.2 RGB interpolation. The app's difficulty text color formula is not baked into the PNG files.
 
 ## BBCode generation
 
