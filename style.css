@@ -178,6 +178,10 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 14px 16px;
+  background: #2e3538;
+  border: 1px solid #455056;
+  border-radius: 8px;
 }
 
 .diff-preview-line {
