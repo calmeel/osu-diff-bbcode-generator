@@ -16,6 +16,7 @@ A static web tool that generates osu! forum BBCode for all difficulties in a bea
 - Sort osu!mania key variants like `4K` and `[4K]` by key count first, then star rating
 - Group osu!mania output under key headings such as `[b]4 Key[/b]`
 - Detect host and guest difficulties
+- Optionally hide guest ownership prefixes such as `Vanity's Oni` in diff names
 - Credit collab difficulties with all listed owners
 - Apply osu!web-like star rating colors
 - Generate BBCode

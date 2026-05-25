@@ -24,6 +24,7 @@ const I18N = {
     hostDiffsLabel: "Host diffs",
     hostDiffsMe: "Show as Me",
     hostDiffsHost: "Show host username link",
+    stripGuestOwnerPrefixLabel: "Hide guest name prefix in diff names",
     previewHeading: "Preview",
     bbcodeHeading: "BBCode",
     copyButton: "Copy",
@@ -50,6 +51,7 @@ const I18N = {
     hostDiffsLabel: "ホスト難易度",
     hostDiffsMe: "Me と表示",
     hostDiffsHost: "ホスト名をリンク表示",
+    stripGuestOwnerPrefixLabel: "GD の Diff 名から所有格を隠す",
     previewHeading: "プレビュー",
     bbcodeHeading: "BBCode",
     copyButton: "コピー",
@@ -77,6 +79,7 @@ const elements = {
   language: document.getElementById("language"),
   languageButtons: document.querySelectorAll(".language-btn"),
   hostDisplayMode: document.getElementById("host-display-mode"),
+  stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
 };
 
 let latestDiffs = [];
@@ -89,6 +92,7 @@ for (const button of elements.languageButtons) {
   button.addEventListener("click", handleLanguageButtonClick);
 }
 elements.hostDisplayMode.addEventListener("change", refreshGeneratedOutput);
+elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
 
 applyLanguage();
 setStatus("ready");
@@ -197,6 +201,7 @@ function t(key, ...args) {
 function getBBCodeOptions() {
   return {
     hostDisplayMode: elements.hostDisplayMode?.value || "me",
+    stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
   };
 }
 
@@ -407,7 +412,7 @@ function createDiffPreviewLine(diff, options) {
   const difficultyName = document.createElement("span");
   difficultyName.className = "preview-diff-name";
   difficultyName.style.color = formatDiffColor(diff);
-  difficultyName.textContent = diff.difficultyName;
+  difficultyName.textContent = formatDifficultyName(diff, options);
 
   const mapperText = document.createElement("span");
   mapperText.className = "preview-mapper";
@@ -523,9 +528,21 @@ function compareManiaKeyGroupNames(a, b) {
 function formatDiffLine(diff, options) {
   return (
     formatDiffIcon(diff) +
-    `[b][color=${formatDiffColor(diff)}] ${diff.difficultyName}[/color][/b]` +
+    `[b][color=${formatDiffColor(diff)}] ${formatDifficultyName(diff, options)}[/color][/b]` +
     ` by ${formatMapperText(diff, options)}`
   );
+}
+
+function formatDifficultyName(diff, options) {
+  if (!options.stripGuestOwnerPrefix || !diff.isGuestDiff) {
+    return diff.difficultyName;
+  }
+
+  return stripOwnerPrefixFromDifficultyName(diff.difficultyName);
+}
+
+function stripOwnerPrefixFromDifficultyName(difficultyName) {
+  return difficultyName.replace(/^.+?[’']s\s+/, "");
 }
 
 function formatDiffIcon(diff) {

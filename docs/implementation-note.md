@@ -51,6 +51,8 @@ Guest diff detection must use IDs from the beatmapset JSON:
 
 Difficulty name parsing is only a fallback for a missing guest mapper name. It must not be used as the source of truth for guest diff detection.
 
+The `Hide guest name prefix in diff names` option only changes rendered difficulty names. When enabled, guest diff names with a leading ownership prefix such as `Vanity's Oni` or `Anders' Oni` are displayed as `Oni` in both preview and BBCode output. The original beatmap JSON and guest diff detection are unchanged.
+
 ## SR colors
 
 Use the osu!web difficulty badge color formula.

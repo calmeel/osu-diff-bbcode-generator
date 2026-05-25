@@ -161,6 +161,20 @@ button:hover {
   border-radius: 8px;
 }
 
+.options-panel .checkbox-option {
+  flex-direction: row;
+  align-items: center;
+  align-self: end;
+  min-height: 38px;
+}
+
+.checkbox-option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #4c6fff;
+}
+
 #preview {
   display: flex;
   flex-direction: column;
