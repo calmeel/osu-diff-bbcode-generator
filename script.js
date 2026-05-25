@@ -23,7 +23,7 @@ const I18N = {
     colorTableLink: "Color table",
     generateButton: "Generate BBCode",
     optionsLabel: "Options",
-    showHostAsMeLabel: "Show host diffs as by Me",
+    showHostAsMeLabel: "Show host diffs as by me",
     stripGuestOwnerPrefixLabel: "Hide guest name prefix in diff names",
     previewHeading: "Preview",
     bbcodeHeading: "BBCode",
@@ -49,7 +49,7 @@ const I18N = {
     colorTableLink: "カラー表",
     generateButton: "BBCode を生成",
     optionsLabel: "オプション",
-    showHostAsMeLabel: "ホスト難易度を by Me と表示",
+    showHostAsMeLabel: "ホスト難易度を by me と表示",
     stripGuestOwnerPrefixLabel: "GD の Diff 名から所有格を隠す",
     previewHeading: "プレビュー",
     bbcodeHeading: "BBCode",
@@ -554,7 +554,7 @@ function formatDiffColor(diff) {
 
 function formatMapperText(diff, options) {
   if (!diff.isGuestDiff && diff.mappers.length === 1 && options.showHostAsMe) {
-    return "Me";
+    return "me";
   }
 
   return diff.mappers
@@ -564,7 +564,7 @@ function formatMapperText(diff, options) {
 
 function formatMapperPreviewText(diff, options) {
   if (!diff.isGuestDiff && diff.mappers.length === 1 && options.showHostAsMe) {
-    return "Me";
+    return "me";
   }
 
   return diff.mapperName;
