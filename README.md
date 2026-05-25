@@ -1,6 +1,8 @@
 # osu! Diff BBCode Generator
 
-A static web tool that generates osu! forum BBCode for all difficulties in a beatmapset.
+<img src="assets/images/icon.png">
+
+A static web tool that generates osu! description BBCode for all difficulties in a beatmapset.
 
 ## Live site
 
