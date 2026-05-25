@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>osu! Diff BBCode Generator</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- d3 interpolate -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+
+  <div class="container">
+    <header class="app-header">
+      <div>
+        <h1 data-i18n="appTitle">osu! Diff BBCode Generator</h1>
+
+        <div class="credits">
+          <span data-i18n="programCreditLabel">Program</span>:
+          <a href="https://osu.ppy.sh/users/12029122" target="_blank" rel="noopener">Vanity8</a>
+          <span class="credit-separator">/</span>
+          <span data-i18n="planningCreditLabel">Planning</span>:
+          <a href="https://osu.ppy.sh/users/9346502" target="_blank" rel="noopener">Santi199</a>
+        </div>
+
+        <div class="last-updated">
+          <span data-i18n="lastUpdatedLabel">Last updated</span>: 2026-05-25
+        </div>
+      </div>
+
+      <nav class="header-actions" aria-label="Project links">
+        <div class="language-toggle" role="group" aria-label="Language">
+          <button type="button" class="language-btn is-active" data-language="en">EN</button>
+          <button type="button" class="language-btn" data-language="ja">JA</button>
+        </div>
+        <a class="header-link" href="https://github.com/Vanity-Rhythm/osu-diff-bbcode-generator" target="_blank" rel="noopener">GitHub</a>
+        <a class="header-link" href="docs/color-table.html" target="_blank" rel="noopener" data-i18n="colorTableLink">Color table</a>
+      </nav>
+    </header>
+
+    <div class="input-section">
+      <input
+        type="text"
+        id="beatmap-url"
+        placeholder="https://osu.ppy.sh/beatmapsets/2552409#taiko/5663322"
+        aria-label="Beatmapset URL"
+      />
+
+      <button id="generate-btn" data-i18n="generateButton">
+        Generate BBCode
+      </button>
+    </div>
+
+    <div class="options-panel" aria-label="BBCode options">
+      <input type="hidden" id="language" value="en" />
+
+      <label>
+        <span data-i18n="hostDiffsLabel">Host diffs</span>
+        <select id="host-display-mode">
+          <option value="me" data-i18n="hostDiffsMe">Show as Me</option>
+          <option value="host" data-i18n="hostDiffsHost">Show host username link</option>
+        </select>
+      </label>
+
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="previewHeading">Preview</h2>
+      <div id="preview"></div>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="bbcodeHeading">BBCode</h2>
+
+      <textarea id="bbcode-output" readonly></textarea>
+
+      <button id="copy-btn" data-i18n="copyButton">
+        Copy
+      </button>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="statusHeading">Status</h2>
+      <div id="status">
+        Ready.
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

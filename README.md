@@ -1,0 +1,63 @@
+# osu! Diff BBCode Generator
+
+A static web tool that generates osu! forum BBCode for all difficulties in a beatmapset.
+
+## Features
+
+- Paste an osu! beatmapset URL
+- Fetch beatmapset HTML through the existing Cloudflare Worker proxy
+- Extract difficulty data from `#json-beatmapset`
+- Group difficulties by game mode
+- Sort difficulties by star rating from low to high
+- Sort osu!mania key variants like `4K` and `[4K]` by key count first, then star rating
+- Group osu!mania output under key headings such as `[b]4 Key[/b]`
+- Detect host and guest difficulties
+- Credit collab difficulties with all listed owners
+- Apply osu!web-like star rating colors
+- Generate BBCode
+- Switch the UI between English and Japanese
+- Open the GitHub repository and color table from the header
+- Copy the generated BBCode
+
+## Local usage
+
+Open `index.html` in a browser. The app is static and does not require a build step.
+
+The browser must be able to access:
+
+- `https://cdn.jsdelivr.net/npm/d3@7`
+- `https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev`
+- `https://raw.githubusercontent.com/Purplegaze/osu-stuff/main/diffs/...`
+
+## Credits
+
+- Program: [Vanity8](https://osu.ppy.sh/users/12029122)
+- Planning: [Santi199](https://osu.ppy.sh/users/9346502)
+
+## Attribution
+
+This project uses and references several osu!-related resources.
+
+### Difficulty icon images
+
+Difficulty icon image URLs point to files in Purplegaze's repository:
+
+- [Purplegaze/osu-stuff](https://github.com/Purplegaze/osu-stuff)
+
+The image files are not bundled in this repository. They are loaded from the upstream repository URL at runtime. Ownership and licensing of those image files remain with their respective upstream authors.
+
+### osu!web difficulty colors
+
+The SR background and text color logic is based on the public osu!web implementation by ppy / peppy:
+
+- Background / text color definitions: [`resources/js/utils/beatmap-helper.ts`](https://github.com/ppy/osu-web/blob/master/resources/js/utils/beatmap-helper.ts)
+- Difficulty badge component: [`resources/js/components/difficulty-badge.tsx`](https://github.com/ppy/osu-web/blob/master/resources/js/components/difficulty-badge.tsx)
+- Difficulty badge CSS: [`resources/css/bem/difficulty-badge.less`](https://github.com/ppy/osu-web/blob/master/resources/css/bem/difficulty-badge.less)
+
+The color calculation in this tool is intended to match osu!web's difficulty badge behavior for BBCode generation.
+
+## License
+
+The source code in this repository is released under the MIT License. See [LICENSE](LICENSE).
+
+This license applies to this repository's own code and documentation. It does not grant additional rights to external assets or upstream code referenced above, including Purplegaze's difficulty icon images or osu!web source code.
