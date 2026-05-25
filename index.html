@@ -56,12 +56,9 @@
     <div class="options-panel" aria-label="BBCode options">
       <input type="hidden" id="language" value="en" />
 
-      <label>
-        <span data-i18n="hostDiffsLabel">Host diffs</span>
-        <select id="host-display-mode">
-          <option value="me" data-i18n="hostDiffsMe">Show as Me</option>
-          <option value="host" data-i18n="hostDiffsHost">Show host username link</option>
-        </select>
+      <label class="checkbox-option">
+        <input type="checkbox" id="show-host-as-me" checked />
+        <span data-i18n="showHostAsMeLabel">Show host diffs as by Me</span>
       </label>
 
       <label class="checkbox-option">

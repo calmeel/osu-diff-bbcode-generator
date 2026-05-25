@@ -21,9 +21,7 @@ const I18N = {
     lastUpdatedLabel: "Last updated",
     colorTableLink: "Color table",
     generateButton: "Generate BBCode",
-    hostDiffsLabel: "Host diffs",
-    hostDiffsMe: "Show as Me",
-    hostDiffsHost: "Show host username link",
+    showHostAsMeLabel: "Show host diffs as by Me",
     stripGuestOwnerPrefixLabel: "Hide guest name prefix in diff names",
     previewHeading: "Preview",
     bbcodeHeading: "BBCode",
@@ -48,9 +46,7 @@ const I18N = {
     lastUpdatedLabel: "最終更新",
     colorTableLink: "カラー表",
     generateButton: "BBCode を生成",
-    hostDiffsLabel: "ホスト難易度",
-    hostDiffsMe: "Me と表示",
-    hostDiffsHost: "ホスト名をリンク表示",
+    showHostAsMeLabel: "ホスト難易度を by Me と表示",
     stripGuestOwnerPrefixLabel: "GD の Diff 名から所有格を隠す",
     previewHeading: "プレビュー",
     bbcodeHeading: "BBCode",
@@ -78,7 +74,7 @@ const elements = {
   statusText: document.getElementById("status"),
   language: document.getElementById("language"),
   languageButtons: document.querySelectorAll(".language-btn"),
-  hostDisplayMode: document.getElementById("host-display-mode"),
+  showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
 };
 
@@ -91,7 +87,7 @@ elements.copyBtn.addEventListener("click", handleCopy);
 for (const button of elements.languageButtons) {
   button.addEventListener("click", handleLanguageButtonClick);
 }
-elements.hostDisplayMode.addEventListener("change", refreshGeneratedOutput);
+elements.showHostAsMe.addEventListener("change", refreshGeneratedOutput);
 elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
 
 applyLanguage();
@@ -200,7 +196,7 @@ function t(key, ...args) {
 
 function getBBCodeOptions() {
   return {
-    hostDisplayMode: elements.hostDisplayMode?.value || "me",
+    showHostAsMe: elements.showHostAsMe?.checked ?? true,
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
   };
 }
@@ -554,7 +550,7 @@ function formatDiffColor(diff) {
 }
 
 function formatMapperText(diff, options) {
-  if (!diff.isGuestDiff && diff.mappers.length === 1 && options.hostDisplayMode === "me") {
+  if (!diff.isGuestDiff && diff.mappers.length === 1 && options.showHostAsMe) {
     return "Me";
   }
 
@@ -564,7 +560,7 @@ function formatMapperText(diff, options) {
 }
 
 function formatMapperPreviewText(diff, options) {
-  if (!diff.isGuestDiff && diff.mappers.length === 1 && options.hostDisplayMode === "me") {
+  if (!diff.isGuestDiff && diff.mappers.length === 1 && options.showHostAsMe) {
     return "Me";
   }
 

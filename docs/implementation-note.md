@@ -92,7 +92,7 @@ The BBCode output uses the standard grouped format:
 
 Mode headings such as `[b]taiko[/b]` are emitted only when the beatmapset contains multiple game modes. Single-mode beatmapsets output difficulty lines directly.
 
-Host diffs can be rendered as `Me` or as the host username profile link. Collab diffs always render all owner profile links, even when one owner is the beatmapset host. Guest diffs do not receive an extra `[GD]` label because the mapper credit already identifies them.
+Host diffs can be rendered as `Me` or as the host username profile link by toggling the host diff checkbox. Collab diffs always render all owner profile links, even when one owner is the beatmapset host. Guest diffs do not receive an extra `[GD]` label because the mapper credit already identifies them.
 
 ## Localization
 
@@ -103,7 +103,7 @@ Current languages:
 - English
 - Japanese
 
-Changing language updates the web app UI labels and status messages. Generated BBCode stays in the same forum-facing format, including `by Me` when the host display mode is set to self.
+Changing language updates the web app UI labels and status messages. Generated BBCode stays in the same forum-facing format, including `by Me` when the host checkbox is enabled.
 
 ## Current structure
 
