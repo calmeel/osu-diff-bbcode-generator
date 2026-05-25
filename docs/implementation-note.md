@@ -67,19 +67,38 @@ Important:
 
 ## Icon URL
 
-Icons are generated from the mode and star rating:
+Icons are loaded from locally generated files:
 
 ```text
-https://raw.githubusercontent.com/Purplegaze/osu-stuff/main/diffs/{mode}/{sr}.png
+assets/icons/generated/{mode}/{sr}.png
 ```
 
-The `{mode}` segment uses the Purplegaze repository directory names:
+The `{mode}` segment uses generated directory names:
 
 - osu! `osu` mode -> `std`
 - osu! `fruits` mode -> `catch`
 - `taiko` and `mania` stay unchanged
 
-The `{sr}` segment must be `Math.min(sr, 9).toFixed(2)`, because the icon repository does not contain files above `9.00.png`.
+The `{sr}` segment must be `Math.min(sr, 9).toFixed(2)`.
+
+## Icon generation
+
+The icon generator is `tools/generate-icons.py`. It renders glyphs from `assets/fonts/extra.ttf` with Pillow and writes PNGs to `assets/icons/generated/`.
+
+Glyph mapping:
+
+- `std`: `U+E800`
+- `catch`: `U+E801`
+- `mania`: `U+E802`
+- `taiko`: `U+E803`
+
+Generated range:
+
+- `0.00.png` through `9.00.png`
+- step: `0.01`
+- total: 901 files per mode
+
+The generated icons use the same osu!web-like SR background and text color formulas as the app, including gamma 2.2 RGB interpolation.
 
 ## BBCode generation
 
@@ -110,6 +129,9 @@ Changing language updates the web app UI labels and status messages. Generated B
 - `index.html`: static markup and controls
 - `style.css`: layout and visual styling
 - `script.js`: client logic
+- `tools/generate-icons.py`: local icon generation script
+- `assets/fonts/extra.ttf`: osu! icon font asset
+- `assets/icons/generated/`: generated local mode icons
 
 The header includes project credits, language toggle buttons, a GitHub repository link, and a link to `docs/color-table.html`.
 
@@ -130,4 +152,3 @@ External runtime dependencies:
 
 - d3 from jsDelivr
 - existing Cloudflare Worker proxy
-- raw GitHub image URLs for SR icons

@@ -19,6 +19,7 @@ A static web tool that generates osu! forum BBCode for all difficulties in a bea
 - Optionally hide guest ownership prefixes such as `Vanity's Oni` in diff names
 - Credit collab difficulties with all listed owners
 - Apply osu!web-like star rating colors
+- Use locally generated SR-colored mode icons
 - Generate BBCode
 - Switch the UI between English and Japanese
 - Open the GitHub repository and color table from the header
@@ -32,7 +33,22 @@ The browser must be able to access:
 
 - `https://cdn.jsdelivr.net/npm/d3@7`
 - `https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev`
-- `https://raw.githubusercontent.com/Purplegaze/osu-stuff/main/diffs/...`
+
+## Icon generation
+
+Mode icons are generated locally from `assets/fonts/extra.ttf` into `assets/icons/generated/`.
+
+The generated file names follow the app icon policy:
+
+- modes: `std`, `taiko`, `catch`, `mania`
+- star ratings: `0.00.png` through `9.00.png`
+- ratings above 9.00 use `9.00.png`
+
+Run the generator with:
+
+```bash
+python tools/generate-icons.py
+```
 
 ## Credits
 
@@ -43,13 +59,15 @@ The browser must be able to access:
 
 This project uses and references several osu!-related resources.
 
-### Difficulty icon images
+### Difficulty icon assets
 
-Difficulty icon image URLs point to files in Purplegaze's repository:
+Difficulty icons are generated from the osu! icon font asset in `assets/fonts/extra.ttf`.
 
-- [Purplegaze/osu-stuff](https://github.com/Purplegaze/osu-stuff)
+The font asset is from the osu! / osu!web ecosystem:
 
-The image files are not bundled in this repository. They are loaded from the upstream repository URL at runtime. Ownership and licensing of those image files remain with their respective upstream authors.
+- [ppy/osu-web](https://github.com/ppy/osu-web)
+
+See [LICENSES/osu-assets.txt](LICENSES/osu-assets.txt) for the asset attribution note.
 
 ### osu!web difficulty colors
 
@@ -65,4 +83,4 @@ The color calculation in this tool is intended to match osu!web's difficulty bad
 
 The source code in this repository is released under the MIT License. See [LICENSE](LICENSE).
 
-This license applies to this repository's own code and documentation. It does not grant additional rights to external assets or upstream code referenced above, including Purplegaze's difficulty icon images or osu!web source code.
+This license applies to this repository's own code and documentation. It does not grant additional rights to external assets or upstream code referenced above, including osu! icon font assets or osu!web source code.

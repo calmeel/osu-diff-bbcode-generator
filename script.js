@@ -1,6 +1,6 @@
 const CONFIG = {
   proxyUrl: "https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev",
-  iconBaseUrl: "https://raw.githubusercontent.com/Purplegaze/osu-stuff/main/diffs",
+  iconBaseUrl: "assets/icons/generated",
 };
 
 const MODE_ORDER = ["osu", "taiko", "fruits", "mania"];
