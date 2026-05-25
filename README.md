@@ -2,6 +2,10 @@
 
 A static web tool that generates osu! forum BBCode for all difficulties in a beatmapset.
 
+## Live site
+
+[osu! Diff BBCode Generator](https://calmeel.github.io/osu-diff-bbcode-generator/)
+
 ## Features
 
 - Paste an osu! beatmapset URL
