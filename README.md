@@ -44,6 +44,12 @@ The generated file names follow the app icon policy:
 - star ratings: `0.00.png` through `9.00.png`
 - ratings above 9.00 use `9.00.png`
 
+The in-app preview uses local relative paths. Generated BBCode uses the GitHub Pages absolute URL so forum posts can load the icons from outside this repository:
+
+```text
+https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated/{mode}/{sr}.png
+```
+
 Run the generator with:
 
 ```bash

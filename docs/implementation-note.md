@@ -67,10 +67,16 @@ Important:
 
 ## Icon URL
 
-Icons are loaded from locally generated files:
+Preview icons are loaded from locally generated files:
 
 ```text
 assets/icons/generated/{mode}/{sr}.png
+```
+
+BBCode output uses the GitHub Pages absolute URL so the images can be loaded from osu! forum posts and other external pages:
+
+```text
+https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated/{mode}/{sr}.png
 ```
 
 The `{mode}` segment uses generated directory names:

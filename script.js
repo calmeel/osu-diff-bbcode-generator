@@ -1,6 +1,7 @@
 const CONFIG = {
   proxyUrl: "https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev",
-  iconBaseUrl: "assets/icons/generated",
+  previewIconBaseUrl: "assets/icons/generated",
+  bbcodeIconBaseUrl: "https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated",
 };
 
 const MODE_ORDER = ["osu", "taiko", "fruits", "mania"];
@@ -404,7 +405,7 @@ function createDiffPreviewLine(diff, options) {
 
   const icon = document.createElement("img");
   icon.className = "diff-icon";
-  icon.src = generateIconUrl(diff.mode, diff.starRating);
+  icon.src = generateIconUrl(diff.mode, diff.starRating, CONFIG.previewIconBaseUrl);
   icon.alt = "";
 
   const difficultyName = document.createElement("span");
@@ -544,7 +545,7 @@ function stripOwnerPrefixFromDifficultyName(difficultyName) {
 }
 
 function formatDiffIcon(diff) {
-  return `[img]${generateIconUrl(diff.mode, diff.starRating)}[/img]`;
+  return `[img]${generateIconUrl(diff.mode, diff.starRating, CONFIG.bbcodeIconBaseUrl)}[/img]`;
 }
 
 function formatDiffColor(diff) {
@@ -569,11 +570,11 @@ function formatMapperPreviewText(diff, options) {
   return diff.mapperName;
 }
 
-function generateIconUrl(mode, sr) {
+function generateIconUrl(mode, sr, iconBaseUrl) {
   const iconMode = getIconMode(mode);
   const rounded = Math.min(sr, 9).toFixed(2);
 
-  return `${CONFIG.iconBaseUrl}/${iconMode}/${rounded}.png`;
+  return `${iconBaseUrl}/${iconMode}/${rounded}.png`;
 }
 
 function getIconMode(mode) {
