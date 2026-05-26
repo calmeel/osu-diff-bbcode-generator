@@ -78,6 +78,10 @@ The font asset is from the osu! / osu!web ecosystem:
 
 - [ppy/osu-web](https://github.com/ppy/osu-web)
 
+The generated icon filename layout and the color-table workflow are inspired by Purplegaze's osu! difficulty icon repository:
+
+- [Purplegaze/osu-stuff](https://github.com/Purplegaze/osu-stuff)
+
 See [LICENSES/osu-assets.txt](LICENSES/osu-assets.txt) for the asset attribution note.
 
 ### osu!web difficulty colors
