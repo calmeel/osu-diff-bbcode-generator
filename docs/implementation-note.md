@@ -148,7 +148,6 @@ Changing language updates the web app UI labels and status messages. Generated B
 - `tools/generate-icons.py`: local icon generation script
 - `assets/fonts/extra.ttf`: osu! icon font asset
 - `assets/i/`: generated local mode icons used by preview and BBCode output
-- `assets/icons/generated/`: legacy generated icon path kept to avoid breaking older BBCode
 
 The header includes project credits, language toggle buttons, a GitHub repository link, and a link to `docs/color-table.html`.
 

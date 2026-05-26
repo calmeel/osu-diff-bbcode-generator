@@ -2,7 +2,7 @@ osu! asset attribution
 ======================
 
 This repository includes `assets/fonts/extra.ttf`, an osu! icon font asset used
-to generate the local difficulty mode icons in `assets/icons/generated/`.
+to generate the local difficulty mode icons in `assets/i/`.
 
 Upstream project:
 https://github.com/ppy/osu-web
