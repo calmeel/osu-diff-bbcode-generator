@@ -52,10 +52,15 @@
     <section>
       <h2>Diff 名オプション</h2>
       <ul class="note-list">
-        <li><code>Show host diffs as by me</code>: ホスト本人の diff を <code>by me</code> として出力します。</li>
-        <li><code>Hide guest name prefix in diff names</code>: <code>Vanity's Oni</code> のような GD 所有者名を Diff 名から隠します。</li>
-        <li><code>Hide osu!mania key prefix in diff names</code>: <code>[7K] Enhance</code> や <code>7K Enhance</code> の key 表記を隠します。</li>
+        <li><code>ホスト難易度を by me と表示</code>: ホスト本人の diff を <code>by me</code> として出力します。</li>
+        <li><code>GD の Diff 名から所有格を隠す</code>: <code>Vanity's Oni</code> のような GD 所有者名を Diff 名から隠します。</li>
+        <li><code>osu!mania の key 表記を隠す</code>: <code>[7K] Enhance</code> や <code>7K Enhance</code> の key 表記を隠します。</li>
       </ul>
+    </section>
+    <section>
+      <h2>リクエストについて</h2>
+      <p>このツールは、osu!web の beatmapset ページから必要な情報を取得するために Cloudflare Worker のプロキシを経由しています。</p>
+      <p>プロキシには 1 日あたり 100,000 リクエストの上限があります。通常の手動利用では問題ありませんが、自動化ツールやスクリプトなどで大量のリクエストを送らないでください。</p>
     </section>
   </main>
 
