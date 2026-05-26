@@ -13,6 +13,13 @@ const MODE_LABELS = {
   mania: "mania",
 };
 
+const TEXT_COLOR_MODES = {
+  WHITE: "white",
+  SR: "sr",
+  READABLE_SR: "readable-sr",
+  OSU_TEXT: "osu-text",
+};
+
 const I18N = {
   en: {
     appTitle: "osu! Diff BBCode Generator",
@@ -23,6 +30,11 @@ const I18N = {
     colorTableLink: "Color table",
     generateButton: "Generate BBCode",
     optionsLabel: "Options",
+    textColorModeLabel: "Difficulty text color",
+    textColorWhite: "White",
+    textColorSr: "SR color",
+    textColorReadableSr: "Readable SR color",
+    textColorOsuText: "osu! text color",
     showHostAsMeLabel: "Show host diffs as by me",
     stripGuestOwnerPrefixLabel: "Hide guest name prefix in diff names",
     previewHeading: "Preview",
@@ -49,6 +61,11 @@ const I18N = {
     colorTableLink: "カラー表",
     generateButton: "BBCode を生成",
     optionsLabel: "オプション",
+    textColorModeLabel: "難易度名の文字色",
+    textColorWhite: "白",
+    textColorSr: "SR 色",
+    textColorReadableSr: "読みやすい SR 色",
+    textColorOsuText: "osu! テキスト色",
     showHostAsMeLabel: "ホスト難易度を by me と表示",
     stripGuestOwnerPrefixLabel: "GD の Diff 名から所有格を隠す",
     previewHeading: "プレビュー",
@@ -77,6 +94,7 @@ const elements = {
   statusText: document.getElementById("status"),
   language: document.getElementById("language"),
   languageButtons: document.querySelectorAll(".language-btn"),
+  textColorMode: document.getElementById("text-color-mode"),
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
 };
@@ -92,6 +110,7 @@ for (const button of elements.languageButtons) {
 }
 elements.showHostAsMe.addEventListener("change", refreshGeneratedOutput);
 elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
+elements.textColorMode.addEventListener("change", refreshGeneratedOutput);
 
 applyLanguage();
 setStatus("ready");
@@ -201,6 +220,7 @@ function getBBCodeOptions() {
   return {
     showHostAsMe: elements.showHostAsMe?.checked ?? true,
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
+    textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.READABLE_SR,
   };
 }
 
@@ -410,7 +430,7 @@ function createDiffPreviewLine(diff, options) {
 
   const difficultyName = document.createElement("span");
   difficultyName.className = "preview-diff-name";
-  difficultyName.style.color = formatDiffColor(diff);
+  difficultyName.style.color = formatDiffTextColor(diff, options);
   difficultyName.textContent = formatDifficultyName(diff, options);
 
   const mapperText = document.createElement("span");
@@ -527,7 +547,7 @@ function compareManiaKeyGroupNames(a, b) {
 function formatDiffLine(diff, options) {
   return (
     formatDiffIcon(diff) +
-    `[b][color=${formatDiffColor(diff)}] ${formatDifficultyName(diff, options)}[/color][/b]` +
+    `[b][color=${formatDiffTextColor(diff, options)}] ${formatDifficultyName(diff, options)}[/color][/b]` +
     ` by ${formatMapperText(diff, options)}`
   );
 }
@@ -550,6 +570,92 @@ function formatDiffIcon(diff) {
 
 function formatDiffColor(diff) {
   return rgbToHex(diff.bgColor);
+}
+
+function formatDiffTextColor(diff, options) {
+  if (options.textColorMode === TEXT_COLOR_MODES.WHITE) {
+    return "#ffffff";
+  }
+
+  if (options.textColorMode === TEXT_COLOR_MODES.OSU_TEXT) {
+    return formatForumOsuTextColor(diff);
+  }
+
+  const srColor = formatDiffColor(diff);
+
+  if (options.textColorMode === TEXT_COLOR_MODES.READABLE_SR) {
+    return getReadableSrColor(srColor);
+  }
+
+  return srColor;
+}
+
+function formatForumOsuTextColor(diff) {
+  if (diff.starRating < 6.5) {
+    return "#ffffff";
+  }
+
+  return rgbToHex(diff.textColor);
+}
+
+function getReadableSrColor(srColor) {
+  const luminance = getRelativeLuminance(srColor);
+  const start = 0.24;
+  const end = 0.06;
+
+  if (luminance >= start) {
+    return srColor;
+  }
+
+  const amount = clamp((start - luminance) / (start - end), 0, 1);
+  return mixHexColors(srColor, "#d8d6ff", amount * 0.9);
+}
+
+function getRelativeLuminance(hex) {
+  const { r, g, b } = hexToRgb(hex);
+  const [linearR, linearG, linearB] = [r, g, b].map(value => {
+    const channel = value / 255;
+    return channel <= 0.03928
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+
+  return linearR * 0.2126 + linearG * 0.7152 + linearB * 0.0722;
+}
+
+function mixHexColors(fromHex, toHex, amount) {
+  const from = hexToRgb(fromHex);
+  const to = hexToRgb(toHex);
+  const rgb = {
+    r: Math.round(from.r + (to.r - from.r) * amount),
+    g: Math.round(from.g + (to.g - from.g) * amount),
+    b: Math.round(from.b + (to.b - from.b) * amount),
+  };
+
+  return rgbObjectToHex(rgb);
+}
+
+function hexToRgb(hex) {
+  const value = hex.replace("#", "");
+
+  return {
+    r: parseInt(value.slice(0, 2), 16),
+    g: parseInt(value.slice(2, 4), 16),
+    b: parseInt(value.slice(4, 6), 16),
+  };
+}
+
+function rgbObjectToHex({ r, g, b }) {
+  return (
+    "#" +
+    [r, g, b]
+      .map(value => value.toString(16).padStart(2, "0"))
+      .join("")
+  );
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }
 
 function formatMapperText(diff, options) {

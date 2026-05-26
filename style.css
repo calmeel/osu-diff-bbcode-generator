@@ -167,6 +167,24 @@ button:hover {
   font-size: 13px;
 }
 
+.select-option {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #c8ced8;
+  font-size: 13px;
+}
+
+.select-option select {
+  min-height: 34px;
+  padding: 7px 9px;
+  background: #1b1e26;
+  border: 1px solid #333b49;
+  border-radius: 6px;
+  color: #f2f4f8;
+  font-size: 13px;
+}
+
 .checkbox-option input {
   width: 16px;
   height: 16px;

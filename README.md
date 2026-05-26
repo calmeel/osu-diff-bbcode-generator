@@ -21,6 +21,7 @@ A static web tool that generates osu! description BBCode for all difficulties in
 - Optionally hide guest ownership prefixes such as `Vanity's Oni` in diff names
 - Credit collab difficulties with all listed owners
 - Apply osu!web-like star rating colors
+- Choose difficulty name color mode for forum readability
 - Use locally generated SR-colored mode icons
 - Generate BBCode
 - Switch the UI between English and Japanese
