@@ -70,13 +70,13 @@ Important:
 Preview icons are loaded from locally generated files:
 
 ```text
-assets/icons/generated/{mode}/{sr}.png
+assets/i/{mode}/{sr}.png
 ```
 
 BBCode output uses the GitHub Pages absolute URL so the images can be loaded from osu! forum posts and other external pages:
 
 ```text
-https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated/{mode}/{sr}.png
+https://calmeel.github.io/osu-diff-bbcode-generator/assets/i/{mode}/{sr}.png
 ```
 
 The `{mode}` segment uses generated directory names:
@@ -89,7 +89,7 @@ The `{sr}` segment must be `Math.min(sr, 9).toFixed(2)`.
 
 ## Icon generation
 
-The icon generator is `tools/generate-icons.py`. It renders glyphs from `assets/fonts/extra.ttf` with Pillow and writes PNGs to `assets/icons/generated/`.
+The icon generator is `tools/generate-icons.py`. It renders glyphs from `assets/fonts/extra.ttf` with Pillow and writes PNGs to `assets/i/`.
 
 Glyph mapping:
 
@@ -138,7 +138,8 @@ Changing language updates the web app UI labels and status messages. Generated B
 - `script.js`: client logic
 - `tools/generate-icons.py`: local icon generation script
 - `assets/fonts/extra.ttf`: osu! icon font asset
-- `assets/icons/generated/`: generated local mode icons
+- `assets/i/`: generated local mode icons used by preview and BBCode output
+- `assets/icons/generated/`: legacy generated icon path kept to avoid breaking older BBCode
 
 The header includes project credits, language toggle buttons, a GitHub repository link, and a link to `docs/color-table.html`.
 

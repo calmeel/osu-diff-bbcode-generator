@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FONT_PATH = REPO_ROOT / "assets" / "fonts" / "extra.ttf"
-OUTPUT_ROOT = REPO_ROOT / "assets" / "icons" / "generated"
+OUTPUT_ROOT = REPO_ROOT / "assets" / "i"
 
 MODES = {
     "std": "\ue800",

@@ -38,7 +38,7 @@ The browser must be able to access:
 
 ## Icon generation
 
-Mode icons are generated locally from `assets/fonts/extra.ttf` into `assets/icons/generated/`.
+Mode icons are generated locally from `assets/fonts/extra.ttf` into `assets/i/`.
 
 The generated file names follow the app icon policy:
 
@@ -50,7 +50,7 @@ The generated file names follow the app icon policy:
 The in-app preview uses local relative paths. Generated BBCode uses the GitHub Pages absolute URL so forum posts can load the icons from outside this repository:
 
 ```text
-https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated/{mode}/{sr}.png
+https://calmeel.github.io/osu-diff-bbcode-generator/assets/i/{mode}/{sr}.png
 ```
 
 Run the generator with:

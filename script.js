@@ -1,7 +1,7 @@
 const CONFIG = {
   proxyUrl: "https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev",
-  previewIconBaseUrl: "assets/icons/generated",
-  bbcodeIconBaseUrl: "https://calmeel.github.io/osu-diff-bbcode-generator/assets/icons/generated",
+  previewIconBaseUrl: "assets/i",
+  bbcodeIconBaseUrl: "https://calmeel.github.io/osu-diff-bbcode-generator/assets/i",
 };
 
 const MODE_ORDER = ["osu", "taiko", "fruits", "mania"];
