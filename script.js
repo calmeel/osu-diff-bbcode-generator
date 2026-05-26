@@ -34,9 +34,10 @@ const I18N = {
     textColorWhite: "White",
     textColorSr: "SR color",
     textColorReadableSr: "Readable SR color",
-    textColorOsuText: "osu! text color",
+    textColorSrBadge: "SR badge color",
     showHostAsMeLabel: "Show host diffs as by me",
     stripGuestOwnerPrefixLabel: "Hide guest name prefix in diff names",
+    stripManiaKeyPrefixLabel: "Hide osu!mania key prefix in diff names",
     previewHeading: "Preview",
     bbcodeHeading: "BBCode",
     copyButton: "Copy",
@@ -65,9 +66,10 @@ const I18N = {
     textColorWhite: "白",
     textColorSr: "SR 色",
     textColorReadableSr: "読みやすい SR 色",
-    textColorOsuText: "osu! テキスト色",
+    textColorSrBadge: "SR バッジ色",
     showHostAsMeLabel: "ホスト難易度を by me と表示",
     stripGuestOwnerPrefixLabel: "GD の Diff 名から所有格を隠す",
+    stripManiaKeyPrefixLabel: "osu!mania の key 表記を隠す",
     previewHeading: "プレビュー",
     bbcodeHeading: "BBCode",
     copyButton: "コピー",
@@ -97,6 +99,7 @@ const elements = {
   textColorMode: document.getElementById("text-color-mode"),
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
+  stripManiaKeyPrefix: document.getElementById("strip-mania-key-prefix"),
 };
 
 let latestDiffs = [];
@@ -110,6 +113,7 @@ for (const button of elements.languageButtons) {
 }
 elements.showHostAsMe.addEventListener("change", refreshGeneratedOutput);
 elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
+elements.stripManiaKeyPrefix.addEventListener("change", refreshGeneratedOutput);
 elements.textColorMode.addEventListener("change", refreshGeneratedOutput);
 
 applyLanguage();
@@ -220,6 +224,7 @@ function getBBCodeOptions() {
   return {
     showHostAsMe: elements.showHostAsMe?.checked ?? true,
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
+    stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
     textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.READABLE_SR,
   };
 }
@@ -553,15 +558,34 @@ function formatDiffLine(diff, options) {
 }
 
 function formatDifficultyName(diff, options) {
-  if (!options.stripGuestOwnerPrefix || !diff.isGuestDiff) {
-    return diff.difficultyName;
+  let difficultyName = diff.difficultyName;
+
+  if (options.stripManiaKeyPrefix && diff.mode === "mania") {
+    difficultyName = stripManiaKeyPrefixFromDifficultyName(difficultyName);
   }
 
-  return stripOwnerPrefixFromDifficultyName(diff.difficultyName);
+  if (options.stripGuestOwnerPrefix && diff.isGuestDiff) {
+    difficultyName = stripOwnerPrefixFromDifficultyName(difficultyName);
+  }
+
+  if (options.stripManiaKeyPrefix && diff.mode === "mania") {
+    difficultyName = stripManiaKeyPrefixFromDifficultyName(difficultyName);
+  }
+
+  return difficultyName;
 }
 
 function stripOwnerPrefixFromDifficultyName(difficultyName) {
   return difficultyName.replace(/^.+?[\x27\u2019]s\s+/i, "");
+}
+
+function stripManiaKeyPrefixFromDifficultyName(difficultyName) {
+  return difficultyName
+    .replace(/^(\s*\[\s*(?:1[0-2]|[1-9])K\s*\]\s*|\s*(?:1[0-2]|[1-9])K\s+)/i, "")
+    .replace(
+      /^(.+?[\x27\u2019]s\s+)(\[\s*(?:1[0-2]|[1-9])K\s*\]\s*|(?:1[0-2]|[1-9])K\s+)/i,
+      "$1",
+    );
 }
 
 function formatDiffIcon(diff) {
@@ -599,6 +623,10 @@ function formatForumOsuTextColor(diff) {
 }
 
 function getReadableSrColor(srColor) {
+  if (srColor.toLowerCase() === "#000000") {
+    return "#ffffff";
+  }
+
   const luminance = getRelativeLuminance(srColor);
   const start = 0.24;
   const end = 0.06;

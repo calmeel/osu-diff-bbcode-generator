@@ -120,12 +120,14 @@ Difficulty name colors are controlled by the `Difficulty text color` option:
 
 - `White`: always outputs `#ffffff`
 - `SR color`: uses the SR background color, matching the original behavior
-- `Readable SR color`: starts from the SR background color and smoothly blends very dark colors toward `#d8d6ff`; this is the default
-- `osu! text color`: uses the osu!web text color formula, but outputs `#ffffff` below SR 6.5 for forum readability
+- `Readable SR color`: starts from the SR background color, outputs `#ffffff` for SR 9.00 and above, and smoothly blends other very dark colors toward `#d8d6ff`; this is the default
+- `SR badge color`: uses the osu!web difficulty badge text color formula, but outputs `#ffffff` below SR 6.5 for forum readability
 
 Mode headings such as `[b]taiko[/b]` are emitted only when the beatmapset contains multiple game modes. Single-mode beatmapsets output difficulty lines directly.
 
 Host diffs can be rendered as `me` or as the host username profile link by toggling the host diff checkbox. Collab diffs always render all owner profile links, even when one owner is the beatmapset host. Guest diffs do not receive an extra `[GD]` label because the mapper credit already identifies them.
+
+The `Hide osu!mania key prefix in diff names` option removes leading key markers such as `[7K] Enhance` -> `Enhance` and `7K Enhance` -> `Enhance`. It also handles guest-name variants such as `Blocko's 7K Otherworldly Judgment` -> `Blocko's Otherworldly Judgment`; if guest owner prefixes are hidden too, the same title becomes `Otherworldly Judgment`.
 
 ## Localization
 

@@ -19,6 +19,7 @@ A static web tool that generates osu! description BBCode for all difficulties in
 - Group osu!mania output under key headings such as `[b]4 Key[/b]`
 - Detect host and guest difficulties
 - Optionally hide guest ownership prefixes such as `Vanity's Oni` in diff names
+- Optionally hide osu!mania key prefixes such as `[7K] Enhance`
 - Credit collab difficulties with all listed owners
 - Apply osu!web-like star rating colors
 - Choose difficulty name color mode for forum readability

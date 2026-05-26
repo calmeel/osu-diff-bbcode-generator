@@ -141,9 +141,9 @@ button:hover {
 .options-panel {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin-top: 12px;
-  width: fit-content;
+  width: min(100%, 760px);
   max-width: 100%;
   padding: 10px 12px;
   background: #151922;
@@ -155,6 +155,13 @@ button:hover {
   color: #c8ced8;
   font-size: 12px;
   font-weight: bold;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 8px 14px;
+  align-items: center;
 }
 
 .options-panel .checkbox-option {
@@ -169,13 +176,20 @@ button:hover {
 
 .select-option {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1 / -1;
   color: #c8ced8;
   font-size: 13px;
 }
 
+.select-option span {
+  flex: 0 0 auto;
+}
+
 .select-option select {
+  width: min(100%, 260px);
   min-height: 34px;
   padding: 7px 9px;
   background: #1b1e26;
@@ -281,6 +295,11 @@ textarea {
   .input-section,
   .options-panel {
     width: 100%;
+  }
+
+  .select-option {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .input-section {
