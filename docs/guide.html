@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>説明書 - osu! Diff BBCode Generator</title>
+  <link rel="stylesheet" href="guide-style.css" />
+</head>
+<body>
+  <main>
+    <h1>説明書</h1>
+    <p>BBCode の文字色オプションは、貼り付け先の背景色によって読みやすさが変わります。このページでは、SR 1 から SR 10 までの架空の難易度名で違いを比較できます。</p>
+
+    <nav class="top-links" aria-label="Guide links">
+      <a href="../index.html">Generator</a>
+      <a href="guide.en.html">English guide</a>
+      <a href="color-table.html">Color table</a>
+      <a href="https://github.com/calmeel/osu-diff-bbcode-generator" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+
+    <section>
+      <h2>Difficulty Text Color</h2>
+      <p><code>Difficulty text color</code> は、Diff 名の <code>[color]</code> に使う色を選ぶ設定です。アイコンは常に SR 色なので、文字色を変えても SR の雰囲気は残ります。</p>
+
+      <div class="mode-grid">
+        <section class="mode-card">
+          <h3>Readable SR color</h3>
+          <p class="mode-description">標準設定です。基本は SR 色ですが、暗すぎる色は淡い紫へなめらかに寄せ、SR 9.00 以上は白にします。</p>
+          <div class="sample-lines" data-sample-mode="readable"></div>
+        </section>
+
+        <section class="mode-card">
+          <h3>SR color</h3>
+          <p class="mode-description">Diff 名に SR 色をそのまま使います。色の情報は分かりやすいですが、暗い背景では高 SR が読みにくい場合があります。</p>
+          <div class="sample-lines" data-sample-mode="sr"></div>
+        </section>
+
+        <section class="mode-card">
+          <h3>White</h3>
+          <p class="mode-description">Diff 名を常に白にします。背景を問わず読みやすく、SR 色はアイコンだけで表現します。</p>
+          <div class="sample-lines" data-sample-mode="white"></div>
+        </section>
+
+        <section class="mode-card">
+          <h3>SR badge color</h3>
+          <p class="mode-description">osu!web の difficulty badge の文字色に近い色を使います。このツールでは読みやすさのため、SR 6.50 未満は白にしています。</p>
+          <div class="sample-lines" data-sample-mode="badge"></div>
+        </section>
+      </div>
+    </section>
+
+    <section>
+      <h2>Diff 名オプション</h2>
+      <ul class="note-list">
+        <li><code>Show host diffs as by me</code>: ホスト本人の diff を <code>by me</code> として出力します。</li>
+        <li><code>Hide guest name prefix in diff names</code>: <code>Vanity's Oni</code> のような GD 所有者名を Diff 名から隠します。</li>
+        <li><code>Hide osu!mania key prefix in diff names</code>: <code>[7K] Enhance</code> や <code>7K Enhance</code> の key 表記を隠します。</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="guide-samples.js"></script>
+</body>
+</html>

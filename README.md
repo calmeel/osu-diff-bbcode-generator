@@ -26,7 +26,7 @@ A static web tool that generates osu! description BBCode for all difficulties in
 - Use locally generated SR-colored mode icons
 - Generate BBCode
 - Switch the UI between English and Japanese
-- Open the GitHub repository and color table from the header
+- Open the GitHub repository, guide, and color table from the header
 - Copy the generated BBCode
 
 ## Local usage

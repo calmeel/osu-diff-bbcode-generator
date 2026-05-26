@@ -27,6 +27,7 @@ const I18N = {
     programCreditLabel: "Program",
     planningCreditLabel: "Planning",
     lastUpdatedLabel: "Last updated",
+    guideLink: "Guide",
     colorTableLink: "Color table",
     generateButton: "Generate BBCode",
     optionsLabel: "Options",
@@ -59,6 +60,7 @@ const I18N = {
     programCreditLabel: "プログラム",
     planningCreditLabel: "立案",
     lastUpdatedLabel: "最終更新",
+    guideLink: "説明書",
     colorTableLink: "カラー表",
     generateButton: "BBCode を生成",
     optionsLabel: "オプション",
@@ -96,6 +98,7 @@ const elements = {
   statusText: document.getElementById("status"),
   language: document.getElementById("language"),
   languageButtons: document.querySelectorAll(".language-btn"),
+  guideLink: document.getElementById("guide-link"),
   textColorMode: document.getElementById("text-color-mode"),
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
@@ -197,6 +200,7 @@ function setStatusText(text) {
 function applyLanguage() {
   document.documentElement.lang = getLanguage();
   updateLanguageButtons();
+  updateGuideLink();
 
   for (const element of document.querySelectorAll("[data-i18n]")) {
     element.textContent = t(element.dataset.i18n);
@@ -208,6 +212,14 @@ function updateLanguageButtons() {
 
   for (const button of elements.languageButtons) {
     button.classList.toggle("is-active", button.dataset.language === language);
+  }
+}
+
+function updateGuideLink() {
+  if (elements.guideLink) {
+    elements.guideLink.href = getLanguage() === "ja"
+      ? "docs/guide.html"
+      : "docs/guide.en.html";
   }
 }
 
