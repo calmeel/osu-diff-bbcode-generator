@@ -143,7 +143,7 @@ button:hover {
   flex-direction: column;
   gap: 10px;
   margin-top: 12px;
-  width: min(100%, 760px);
+  width: min(100%, 920px);
   max-width: 100%;
   padding: 10px 12px;
   background: #151922;
@@ -159,7 +159,7 @@ button:hover {
 
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 8px 14px;
   align-items: center;
 }
@@ -172,6 +172,10 @@ button:hover {
   min-height: 24px;
   color: #c8ced8;
   font-size: 13px;
+}
+
+.checkbox-option span {
+  white-space: nowrap;
 }
 
 .select-option {
@@ -300,6 +304,10 @@ textarea {
   .select-option {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .checkbox-option span {
+    white-space: normal;
   }
 
   .input-section {

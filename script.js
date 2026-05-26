@@ -576,7 +576,12 @@ function formatDifficultyName(diff, options) {
 }
 
 function stripOwnerPrefixFromDifficultyName(difficultyName) {
-  return difficultyName.replace(/^.+?[\x27\u2019]s\s+/i, "");
+  return difficultyName
+    .replace(
+      /^(\s*(?:\[\s*(?:1[0-2]|[1-9])K\s*\]\s*|(?:1[0-2]|[1-9])K\s+)).+?[\x27\u2019]s\s+/i,
+      "$1",
+    )
+    .replace(/^.+?[\x27\u2019]s\s+/i, "");
 }
 
 function stripManiaKeyPrefixFromDifficultyName(difficultyName) {
