@@ -8,6 +8,16 @@ A static web tool that generates osu! description BBCode for all difficulties in
 
 [osu! Diff BBCode Generator](https://calmeel.github.io/osu-diff-bbcode-generator/)
 
+## Why use this?
+
+Paste an osu! beatmapset link and the tool automatically generates forum-ready BBCode with difficulty icons and SR-based text colors. You only need to copy the result and paste it into your post.
+
+The color output is based on the current osu!web SR color table, with icon files prepared from `0.00` to `9.00` in 0.01 steps. This gives the generated BBCode accurate color coverage across 900+ SR variations.
+
+It is also useful after SR reworks: when star ratings change, you can regenerate the full difficulty list at once instead of updating each line manually.
+
+You can choose from four difficulty text color modes, making the output easier to read across different forum themes and backgrounds.
+
 ## Features
 
 - Paste an osu! beatmapset URL
