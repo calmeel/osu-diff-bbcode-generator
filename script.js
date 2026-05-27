@@ -51,8 +51,8 @@ const I18N = {
     copySuccess: "Copied BBCode to clipboard.",
     copyFailed: "Failed to copy BBCode.",
     genericError: "Something went wrong.",
-    proxyFetchFailed: "Failed to fetch beatmapset page via proxy.",
-    missingBeatmapsetData: "Failed to find beatmapset data in the page HTML.",
+    proxyFetchFailed: "Failed to fetch beatmapset data via proxy.",
+    missingBeatmapsetData: "Failed to read beatmapset data.",
   },
   ja: {
     appTitle: "osu! 難易度 BBCode ジェネレーター",
@@ -84,8 +84,8 @@ const I18N = {
     copySuccess: "BBCode をクリップボードにコピーしました。",
     copyFailed: "BBCode のコピーに失敗しました。",
     genericError: "エラーが発生しました。",
-    proxyFetchFailed: "プロキシ経由で beatmapset ページを取得できませんでした。",
-    missingBeatmapsetData: "ページ HTML 内に beatmapset データが見つかりませんでした。",
+    proxyFetchFailed: "プロキシ経由で beatmapset データを取得できませんでした。",
+    missingBeatmapsetData: "beatmapset データを読み取れませんでした。",
   },
 };
 
@@ -135,8 +135,7 @@ async function handleGenerate() {
 
     setStatus("fetching", beatmapsetId);
 
-    const html = await fetchBeatmapsetHtml(beatmapsetId);
-    const beatmapset = extractBeatmapsetJson(html);
+    const beatmapset = await fetchBeatmapset(beatmapsetId);
     const diffs = normalizeBeatmaps(beatmapset);
 
     latestDiffs = diffs;
@@ -246,7 +245,7 @@ function parseBeatmapsetId(url) {
   return match ? match[1] : null;
 }
 
-async function fetchBeatmapsetHtml(beatmapsetId) {
+async function fetchBeatmapset(beatmapsetId) {
   const response = await fetch(
     `${CONFIG.proxyUrl}/?id=${encodeURIComponent(beatmapsetId)}`
   );
@@ -255,7 +254,23 @@ async function fetchBeatmapsetHtml(beatmapsetId) {
     throw new Error(t("proxyFetchFailed"));
   }
 
-  return await response.text();
+  const contentType = response.headers.get("Content-Type") || "";
+
+  if (contentType.includes("application/json")) {
+    return normalizeBeatmapsetResponse(await response.json());
+  }
+
+  return extractBeatmapsetJson(await response.text());
+}
+
+function normalizeBeatmapsetResponse(data) {
+  const beatmapset = data?.beatmapset || data;
+
+  if (!beatmapset?.beatmaps?.length) {
+    throw new Error(t("missingBeatmapsetData"));
+  }
+
+  return beatmapset;
 }
 
 function extractBeatmapsetJson(html) {

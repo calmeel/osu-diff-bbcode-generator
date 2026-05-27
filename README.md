@@ -21,8 +21,7 @@ You can choose from four difficulty text color modes, making the output easier t
 ## Features
 
 - Paste an osu! beatmapset URL
-- Fetch beatmapset HTML through the existing Cloudflare Worker proxy
-- Extract difficulty data from `#json-beatmapset`
+- Fetch beatmapset JSON through the Cloudflare Worker proxy and osu!api v2
 - Group difficulties by game mode
 - Sort difficulties by star rating from low to high
 - Sort osu!mania key variants like `4K` and `[4K]` by key count first, then star rating
@@ -47,6 +46,13 @@ The browser must be able to access:
 
 - `https://cdn.jsdelivr.net/npm/d3@7`
 - `https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev`
+
+The proxy uses osu!api v2, so its Cloudflare Worker must be configured with osu! OAuth client credentials:
+
+- `OSU_CLIENT_ID`
+- `OSU_CLIENT_SECRET`
+
+A reference Worker implementation is available at [`docs/cloudflare-worker-api-v2.js`](docs/cloudflare-worker-api-v2.js).
 
 ## Icon generation
 

@@ -16,13 +16,19 @@ The parser reads the beatmapset ID from `/beatmapsets/{id}`.
 
 ## Data source
 
-The app fetches beatmapset HTML through the existing Cloudflare Worker proxy:
+The app fetches beatmapset JSON through the Cloudflare Worker proxy:
 
 ```text
 https://osu-diff-bbcode-proxy.vanity-rhythm.workers.dev/?id={beatmapsetId}
 ```
 
-Do not change the proxy behavior in this repository. The client expects the proxy to return the original beatmapset HTML so it can read `#json-beatmapset`.
+The Worker calls osu!api v2 with OAuth client credentials and returns the public `GET /api/v2/beatmapsets/{beatmapset}` JSON response to the static page. The client still keeps a legacy HTML fallback so a temporarily old Worker response can be parsed from `#json-beatmapset`.
+
+Reference Worker code:
+
+```text
+docs/cloudflare-worker-api-v2.js
+```
 
 ## Required data
 
@@ -154,7 +160,7 @@ The header includes project credits, language toggle buttons, a GitHub repositor
 The main script is organized around:
 
 - DOM element lookup and event handlers
-- beatmapset fetch and HTML JSON extraction
+- beatmapset JSON fetch, with legacy HTML JSON extraction as fallback
 - beatmap normalization
 - preview rendering that mirrors the BBCode line layout
 - BBCode line formatting
@@ -167,4 +173,4 @@ The project can be served by GitHub Pages or any static host. No build step is r
 External runtime dependencies:
 
 - d3 from jsDelivr
-- existing Cloudflare Worker proxy
+- Cloudflare Worker proxy with osu! OAuth client credentials
