@@ -4,6 +4,9 @@ const allowedOrigins = new Set([
   "http://127.0.0.1:4173",
 ]);
 
+const BEATMAPSET_CACHE_SECONDS = 3600;
+const TOKEN_REFRESH_MARGIN_SECONDS = 300;
+
 let tokenCache = null;
 
 function getCorsHeaders(request) {
@@ -36,7 +39,7 @@ function errorResponse(message, status, headers) {
 async function getAccessToken(env) {
   const now = Math.floor(Date.now() / 1000);
 
-  if (tokenCache && tokenCache.expiresAt > now + 60) {
+  if (tokenCache && tokenCache.expiresAt > now + TOKEN_REFRESH_MARGIN_SECONDS) {
     return tokenCache.accessToken;
   }
 
@@ -120,7 +123,7 @@ export default {
         headers: {
           ...corsHeaders,
           "Content-Type": "application/json; charset=utf-8",
-          "Cache-Control": "public, max-age=300",
+          "Cache-Control": `public, max-age=${BEATMAPSET_CACHE_SECONDS}`,
         },
       });
     }
@@ -133,7 +136,7 @@ export default {
         headers: {
           ...corsHeaders,
           "Content-Type": "application/json; charset=utf-8",
-          "Cache-Control": "public, max-age=300",
+          "Cache-Control": `public, max-age=${BEATMAPSET_CACHE_SECONDS}`,
         },
       });
 
