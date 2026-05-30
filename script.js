@@ -236,7 +236,7 @@ function getBBCodeOptions() {
     showHostAsMe: elements.showHostAsMe?.checked ?? true,
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
     stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
-    textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.READABLE_SR,
+    textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
   };
 }
 
