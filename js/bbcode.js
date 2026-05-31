@@ -106,8 +106,20 @@ function formatMapperText(diff, options) {
   }
 
   return diff.mappers
-    .map(mapper => `[url=${mapper.url}]${mapper.username}[/url]`)
+    .map(formatMapperProfileText)
     .join(" & ");
+}
+
+function formatMapperProfileText(mapper) {
+  if (mapper.id && mapper.username) {
+    return `[profile=${mapper.id}]${mapper.username}[/profile]`;
+  }
+
+  if (mapper.url && mapper.username) {
+    return `[url=${mapper.url}]${mapper.username}[/url]`;
+  }
+
+  return mapper.username || "Unknown";
 }
 
 export function formatMapperPreviewText(diff, options) {

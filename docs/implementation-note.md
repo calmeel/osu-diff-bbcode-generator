@@ -39,14 +39,14 @@ For each beatmap difficulty:
 - star rating
 - beatmap ID
 - mapper username or usernames
-- mapper profile URL or URLs
+- mapper user ID, username, and fallback profile URL
 - whether the diff is a host diff or guest diff
 
 Normalized difficulties are sorted by `starRating` from low to high before preview and BBCode rendering. For osu!mania, key-count markers such as `4K` or `[4K]` are detected first; mania diffs are ordered by key count, then SR.
 
 osu!mania output is split into key-count sections. Each key section uses a heading such as `[b]4 Key[/b]`, matching the existing mode-heading style.
 
-For collab diffs, use `beatmap.owners` when it is present. Each owner is rendered as a separate profile link and owner names are joined with ` & `. If `beatmap.owners` is missing or empty, fall back to the single `beatmap.user_id` mapper logic.
+For collab diffs, use `beatmap.owners` when it is present. Each owner is rendered as a separate `[profile=user_id]username[/profile]` link and owner names are joined with ` & `. If `beatmap.owners` is missing or empty, fall back to the single `beatmap.user_id` mapper logic.
 
 ## Guest diff detection
 
@@ -132,6 +132,8 @@ Difficulty name colors are controlled by the `Difficulty text color` option:
 Mode headings such as `[b]taiko[/b]` are emitted only when the beatmapset contains multiple game modes. Single-mode beatmapsets output difficulty lines directly.
 
 Host diffs can be rendered as `me` or as the host username profile link by toggling the host diff checkbox. Collab diffs always render all owner profile links, even when one owner is the beatmapset host. Guest diffs do not receive an extra `[GD]` label because the mapper credit already identifies them.
+
+Mapper links use osu!'s `[profile=user_id]username[/profile]` BBCode when both user ID and username are available. If a mapper ID is missing, the formatter falls back to `[url=...]username[/url]`.
 
 The `Hide osu!mania key prefix in diff names` option removes leading key markers such as `[7K] Enhance` -> `Enhance` and `7K Enhance` -> `Enhance`. It also handles guest-name variants such as `Blocko's 7K Otherworldly Judgment` -> `Blocko's Otherworldly Judgment`; if guest owner prefixes are hidden too, the same title becomes `Otherworldly Judgment`.
 
