@@ -125,8 +125,8 @@ The BBCode output uses the standard grouped format:
 Difficulty name colors are controlled by the `Difficulty text color` option:
 
 - `White`: always outputs `#ffffff`
-- `SR color`: uses the SR background color, matching the original behavior
-- `Readable SR color`: starts from the SR background color, outputs `#ffffff` for SR 9.00 and above, and smoothly blends other very dark colors toward `#d8d6ff`; this is the default
+- `SR color`: uses the SR background color, matching the icon color; this is the default
+- `Readable SR color`: starts from the SR background color, outputs `#ffffff` for SR 9.00 and above, and smoothly blends other very dark colors toward `#d8d6ff`
 - `SR badge color`: uses the osu!web difficulty badge text color formula, but outputs `#ffffff` below SR 6.5 for forum readability
 
 Mode headings such as `[b]taiko[/b]` are emitted only when the beatmapset contains multiple game modes. Single-mode beatmapsets output difficulty lines directly.
@@ -137,7 +137,7 @@ The `Hide osu!mania key prefix in diff names` option removes leading key markers
 
 ## Localization
 
-UI strings are stored in the `I18N` table in `script.js`.
+UI strings are stored in the `I18N` table in `js/i18n.js`.
 
 Current languages:
 
@@ -150,25 +150,31 @@ Changing language updates the web app UI labels and status messages. Generated B
 
 - `index.html`: static markup and controls
 - `style.css`: layout and visual styling
-- `script.js`: client logic
+- `script.js`: app startup, DOM event handlers, and preview rendering
+- `js/config.js`: shared configuration and option constants
+- `js/i18n.js`: UI text
+- `js/api.js`: beatmapset ID parsing and proxy fetch
+- `js/beatmaps.js`: beatmap normalization, mapper resolution, and sorting
+- `js/sections.js`: mode and osu!mania key section grouping
+- `js/bbcode.js`: BBCode formatting, difficulty name formatting, mapper text, and icon URL formatting
+- `js/colors.js`: osu!web SR color helpers and readable text-color helpers
 - `tools/generate-icons.py`: local icon generation script
 - `assets/fonts/extra.ttf`: osu! icon font asset
 - `assets/i/`: generated local mode icons used by preview and BBCode output
 
 The header includes project credits, language toggle buttons, a GitHub repository link, and a link to `docs/color-table.html`.
 
-The main script is organized around:
+The client code is organized around:
 
-- DOM element lookup and event handlers
-- beatmapset JSON fetch, with legacy HTML JSON extraction as fallback
-- beatmap normalization
-- preview rendering that mirrors the BBCode line layout
-- BBCode line formatting
-- osu!web SR color helpers
+- `script.js` for DOM element lookup, event handlers, status updates, and preview rendering
+- `js/api.js` for beatmapset JSON fetch, with legacy HTML JSON extraction as fallback
+- `js/beatmaps.js` for normalized difficulty data
+- `js/bbcode.js` for generated forum output
+- `js/colors.js` for osu!web SR color calculations
 
 ## Deployment notes
 
-The project can be served by GitHub Pages or any static host. No build step is required.
+The project can be served by GitHub Pages or any static host. No build step is required. Because the app uses ES modules, local development should use a static server such as `python -m http.server 4173` instead of opening `index.html` directly with `file://`.
 
 External runtime dependencies:
 

@@ -40,7 +40,19 @@ You can choose from four difficulty text color modes, making the output easier t
 
 ## Local usage
 
-Open `index.html` in a browser. The app is static and does not require a build step.
+Serve the repository directory with a local static server, then open the local URL in a browser. The app uses ES modules, so opening `index.html` directly with `file://` may be blocked by the browser.
+
+```bash
+python -m http.server 4173
+```
+
+Then open:
+
+```text
+http://localhost:4173/
+```
+
+The app is static and does not require a build step.
 
 The browser must be able to access:
 
