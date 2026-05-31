@@ -11,6 +11,8 @@ import {
 } from "./js/bbcode.js";
 import { getDiffSections } from "./js/sections.js";
 
+const STORAGE_KEY = "osu-diff-bbcode-generator:settings";
+
 const elements = {
   beatmapUrl: document.getElementById("beatmap-url"),
   generateBtn: document.getElementById("generate-btn"),
@@ -31,6 +33,8 @@ let latestDiffs = [];
 let latestStatusKey = "ready";
 let latestStatusArgs = [];
 
+loadSettings();
+
 elements.generateBtn.addEventListener("click", handleGenerate);
 elements.copyBtn.addEventListener("click", handleCopy);
 for (const button of elements.languageButtons) {
@@ -40,6 +44,10 @@ elements.showHostAsMe.addEventListener("change", refreshGeneratedOutput);
 elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
 elements.stripManiaKeyPrefix.addEventListener("change", refreshGeneratedOutput);
 elements.textColorMode.addEventListener("change", refreshGeneratedOutput);
+elements.showHostAsMe.addEventListener("change", saveSettings);
+elements.stripGuestOwnerPrefix.addEventListener("change", saveSettings);
+elements.stripManiaKeyPrefix.addEventListener("change", saveSettings);
+elements.textColorMode.addEventListener("change", saveSettings);
 
 applyLanguage();
 setStatus("ready");
@@ -94,6 +102,7 @@ function handleLanguageButtonClick(event) {
 
 function handleLanguageChange() {
   applyLanguage();
+  saveSettings();
   refreshGeneratedOutput();
   setStatus(latestStatusKey, ...latestStatusArgs);
 }
@@ -172,6 +181,61 @@ function getBBCodeOptions() {
     stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
     textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
   };
+}
+
+function loadSettings() {
+  const settings = readStoredSettings();
+
+  if (!settings) {
+    return;
+  }
+
+  if (settings.language && I18N[settings.language]) {
+    elements.language.value = settings.language;
+  }
+
+  if (settings.textColorMode && hasSelectOption(elements.textColorMode, settings.textColorMode)) {
+    elements.textColorMode.value = settings.textColorMode;
+  }
+
+  setCheckboxValue(elements.showHostAsMe, settings.showHostAsMe);
+  setCheckboxValue(elements.stripGuestOwnerPrefix, settings.stripGuestOwnerPrefix);
+  setCheckboxValue(elements.stripManiaKeyPrefix, settings.stripManiaKeyPrefix);
+}
+
+function readStoredSettings() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY));
+  }
+  catch (err) {
+    console.warn("Failed to read stored settings.", err);
+    return null;
+  }
+}
+
+function saveSettings() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      language: getLanguage(),
+      textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
+      showHostAsMe: elements.showHostAsMe?.checked ?? true,
+      stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
+      stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
+    }));
+  }
+  catch (err) {
+    console.warn("Failed to save settings.", err);
+  }
+}
+
+function hasSelectOption(select, value) {
+  return Array.from(select?.options || []).some(option => option.value === value);
+}
+
+function setCheckboxValue(checkbox, value) {
+  if (typeof value === "boolean") {
+    checkbox.checked = value;
+  }
 }
 
 function renderPreview(diffs) {
