@@ -36,6 +36,13 @@ function errorResponse(message, status, headers) {
   return jsonResponse({ error: message }, { status, headers });
 }
 
+class UpstreamError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+
 async function getAccessToken(env) {
   const now = Math.floor(Date.now() / 1000);
 
@@ -69,7 +76,7 @@ async function getAccessToken(env) {
   });
 
   if (!response.ok) {
-    throw new Error(`Token request failed with status ${response.status}`);
+    throw new UpstreamError(`Token request failed with status ${response.status}`, response.status);
   }
 
   const token = await response.json();
@@ -169,7 +176,8 @@ export default {
       return response;
     }
     catch (err) {
-      return errorResponse("Failed to fetch beatmapset data", 502, corsHeaders);
+      const status = err instanceof UpstreamError && err.status === 429 ? 429 : 502;
+      return errorResponse("Failed to fetch beatmapset data", status, corsHeaders);
     }
   },
 };
