@@ -43,6 +43,15 @@ async function getAccessToken(env) {
     return tokenCache.accessToken;
   }
 
+  if (env.OSU_TOKEN_KV) {
+    const cachedToken = await env.OSU_TOKEN_KV.get("access-token", "json");
+
+    if (cachedToken && cachedToken.expiresAt > now + TOKEN_REFRESH_MARGIN_SECONDS) {
+      tokenCache = cachedToken;
+      return cachedToken.accessToken;
+    }
+  }
+
   const body = new URLSearchParams({
     client_id: env.OSU_CLIENT_ID,
     client_secret: env.OSU_CLIENT_SECRET,
@@ -68,6 +77,19 @@ async function getAccessToken(env) {
     accessToken: token.access_token,
     expiresAt: now + Number(token.expires_in || 0),
   };
+
+  if (env.OSU_TOKEN_KV) {
+    const expirationTtl = Math.max(
+      60,
+      Number(token.expires_in || 0) - TOKEN_REFRESH_MARGIN_SECONDS,
+    );
+
+    await env.OSU_TOKEN_KV.put(
+      "access-token",
+      JSON.stringify(tokenCache),
+      { expirationTtl },
+    );
+  }
 
   return tokenCache.accessToken;
 }

@@ -9,7 +9,7 @@ export async function fetchBeatmapset(beatmapsetId, { proxyUrl, messages }) {
   );
 
   if (!response.ok) {
-    throw new Error(messages.proxyFetchFailed);
+    throw new Error(await getFetchErrorMessage(response, messages));
   }
 
   const contentType = response.headers.get("Content-Type") || "";
@@ -19,6 +19,20 @@ export async function fetchBeatmapset(beatmapsetId, { proxyUrl, messages }) {
   }
 
   return extractBeatmapsetJson(await response.text(), messages);
+}
+
+async function getFetchErrorMessage(response, messages) {
+  const responseText = await response.clone().text().catch(() => "");
+
+  if (response.status === 429 || responseText.includes("429 Too Many Requests")) {
+    return messages.proxyRateLimited;
+  }
+
+  if (response.status >= 500) {
+    return messages.proxyTemporaryUnavailable;
+  }
+
+  return messages.proxyFetchFailed;
 }
 
 function normalizeBeatmapsetResponse(data, messages) {

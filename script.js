@@ -159,6 +159,8 @@ function t(key, ...args) {
 function getApiMessages() {
   return {
     proxyFetchFailed: t("proxyFetchFailed"),
+    proxyRateLimited: t("proxyRateLimited"),
+    proxyTemporaryUnavailable: t("proxyTemporaryUnavailable"),
     missingBeatmapsetData: t("missingBeatmapsetData"),
   };
 }

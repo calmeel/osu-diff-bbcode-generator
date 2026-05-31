@@ -29,7 +29,9 @@ export const I18N = {
     copySuccess: "Copied BBCode to clipboard.",
     copyFailed: "Failed to copy BBCode.",
     genericError: "Something went wrong.",
-    proxyFetchFailed: "Failed to fetch beatmapset data via proxy.",
+    proxyFetchFailed: "Could not fetch beatmapset data. Please check the URL and try again.",
+    proxyRateLimited: "Could not fetch beatmapset data because the service is receiving too many requests. Please wait a while and try again. If it keeps happening, contact the developer.",
+    proxyTemporaryUnavailable: "Could not fetch beatmapset data right now. Please wait a while and try again. If it keeps happening, contact the developer.",
     missingBeatmapsetData: "Failed to read beatmapset data.",
   },
   ja: {
@@ -62,7 +64,9 @@ export const I18N = {
     copySuccess: "BBCode をクリップボードにコピーしました。",
     copyFailed: "BBCode のコピーに失敗しました。",
     genericError: "エラーが発生しました。",
-    proxyFetchFailed: "プロキシ経由で beatmapset データを取得できませんでした。",
+    proxyFetchFailed: "beatmapset データを取得できませんでした。URL を確認して再度お試しください。",
+    proxyRateLimited: "リクエスト過多により beatmapset データを取得できませんでした。時間を空けて再度お試しください。何度も発生する場合は開発者に連絡してください。",
+    proxyTemporaryUnavailable: "現在 beatmapset データを取得できません。時間を空けて再度お試しください。何度も発生する場合は開発者に連絡してください。",
     missingBeatmapsetData: "beatmapset データを読み取れませんでした。",
   },
 };
