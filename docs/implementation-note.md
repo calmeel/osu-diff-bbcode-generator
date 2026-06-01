@@ -135,6 +135,14 @@ Host diffs can be rendered as `me` or as the host username profile link by toggl
 
 Mapper links use osu!'s `[profile=user_id]username[/profile]` BBCode when both user ID and username are available. If a mapper ID is missing, the formatter falls back to `[url=...]username[/url]`.
 
+Optional extra credits can be added for Hitsound, Storyboard, and Skin. Each extra credit accepts one username and one optional user ID or osu! user profile URL. Filled entries are appended after the full difficulty output with one blank line before them:
+
+```text
+[img]ICON_URL_FOR_STD_0.00[/img][b][color=#aaaaaa] Hitsounds[/color][/b] by [profile=123456]Username[/profile]
+```
+
+If the user ID/link is blank or invalid, the username is output as plain text. Extra credits use the `std/0.00.png` icon.
+
 The `Hide osu!mania key prefix in diff names` option removes leading key markers such as `[7K] Enhance` -> `Enhance` and `7K Enhance` -> `Enhance`. It also handles guest-name variants such as `Blocko's 7K Otherworldly Judgment` -> `Blocko's Otherworldly Judgment`; if guest owner prefixes are hidden too, the same title becomes `Otherworldly Judgment`.
 
 ## Localization

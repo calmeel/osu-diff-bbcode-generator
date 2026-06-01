@@ -55,38 +55,71 @@
       </button>
     </div>
 
-    <div class="options-panel" aria-label="BBCode options">
-      <input type="hidden" id="language" value="en" />
+    <div class="options-layout">
+      <div class="options-panel" aria-label="BBCode options">
+        <input type="hidden" id="language" value="en" />
 
-      <div class="options-title" data-i18n="optionsLabel">Options</div>
+        <div class="options-title" data-i18n="optionsLabel">Options</div>
 
-      <label class="select-option">
-        <span data-i18n="textColorModeLabel">Difficulty text color</span>
-        <select id="text-color-mode">
-          <option value="sr" data-i18n="textColorSr" selected>SR color</option>
-          <option value="readable-sr" data-i18n="textColorReadableSr">Readable SR color</option>
-          <option value="white" data-i18n="textColorWhite">White</option>
-          <option value="osu-text" data-i18n="textColorSrBadge">SR badge color</option>
-        </select>
-      </label>
-
-      <div class="checkbox-options">
-        <label class="checkbox-option">
-          <input type="checkbox" id="show-host-as-me" checked />
-          <span data-i18n="showHostAsMeLabel">Show host diffs as by me</span>
+        <label class="select-option">
+          <span data-i18n="textColorModeLabel">Difficulty text color</span>
+          <select id="text-color-mode">
+            <option value="sr" data-i18n="textColorSr" selected>SR color</option>
+            <option value="readable-sr" data-i18n="textColorReadableSr">Readable SR color</option>
+            <option value="white" data-i18n="textColorWhite">White</option>
+            <option value="osu-text" data-i18n="textColorSrBadge">SR badge color</option>
+          </select>
         </label>
 
-        <label class="checkbox-option">
-          <input type="checkbox" id="strip-guest-owner-prefix" />
-          <span data-i18n="stripGuestOwnerPrefixLabel">Hide guest name prefix in diff names</span>
-        </label>
+        <div class="checkbox-options">
+          <label class="checkbox-option">
+            <input type="checkbox" id="show-host-as-me" checked />
+            <span data-i18n="showHostAsMeLabel">Show host diffs as by me</span>
+          </label>
 
-        <label class="checkbox-option">
-          <input type="checkbox" id="strip-mania-key-prefix" />
-          <span data-i18n="stripManiaKeyPrefixLabel">Hide osu!mania key prefix in diff names</span>
-        </label>
+          <label class="checkbox-option">
+            <input type="checkbox" id="strip-guest-owner-prefix" />
+            <span data-i18n="stripGuestOwnerPrefixLabel">Hide guest name prefix in diff names</span>
+          </label>
+
+          <label class="checkbox-option">
+            <input type="checkbox" id="strip-mania-key-prefix" />
+            <span data-i18n="stripManiaKeyPrefixLabel">Hide osu!mania key prefix in diff names</span>
+          </label>
+        </div>
       </div>
 
+      <details class="extra-credits-panel">
+        <summary>
+          <span data-i18n="extraCreditsLabel">Extra credits</span>
+        </summary>
+
+        <div class="extra-credit-table">
+          <div class="extra-credit-table-head" aria-hidden="true">
+            <span></span>
+            <span data-i18n="extraCreditUsernameLabel">Username</span>
+            <span data-i18n="extraCreditUserIdLabel">User ID or link</span>
+          </div>
+
+          <label class="extra-credit-row">
+            <span class="extra-credit-type" data-i18n="hitsoundCreditLabel">Hitsound</span>
+            <input type="text" id="hitsound-username" autocomplete="off" aria-label="Hitsound username" />
+            <input type="text" id="hitsound-user-id" inputmode="numeric" autocomplete="off" aria-label="Hitsound user ID or link" />
+          </label>
+
+          <label class="extra-credit-row">
+            <span class="extra-credit-type" data-i18n="storyboardCreditLabel">Storyboard</span>
+            <input type="text" id="storyboard-username" autocomplete="off" aria-label="Storyboard username" />
+            <input type="text" id="storyboard-user-id" inputmode="numeric" autocomplete="off" aria-label="Storyboard user ID or link" />
+          </label>
+
+          <label class="extra-credit-row">
+            <span class="extra-credit-type" data-i18n="skinCreditLabel">Skin</span>
+            <input type="text" id="skin-username" autocomplete="off" aria-label="Skin username" />
+            <input type="text" id="skin-user-id" inputmode="numeric" autocomplete="off" aria-label="Skin user ID or link" />
+          </label>
+        </div>
+      </details>
     </div>
 
     <div class="section">
@@ -121,6 +154,14 @@
       </div>
 
       <ul class="update-log-list">
+        <li>
+          <time datetime="2026-06-02">2026/6/2</time>
+          <span data-i18n="updateLogExtraCredits">Added optional Hitsound, Storyboard, and Skin credits.</span>
+          <span class="request-credit">
+            <span data-i18n="updateLogRequestedBy">Request by</span>
+            <a href="https://osu.ppy.sh/users/10415491" target="_blank" rel="noopener">Amasugi</a>
+          </span>
+        </li>
         <li>
           <time datetime="2026-05-31">2026/5/31</time>
           <span data-i18n="updateLogProfileTag">Changed mapper profile links from [url] to [profile].</span>

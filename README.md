@@ -30,6 +30,7 @@ You can choose from four difficulty text color modes, making the output easier t
 - Optionally hide guest ownership prefixes such as `Vanity's Oni` in diff names
 - Optionally hide osu!mania key prefixes such as `[7K] Enhance`
 - Credit collab difficulties with all listed owners
+- Add optional Hitsound, Storyboard, and Skin credits after the difficulty list
 - Apply osu!web-like star rating colors
 - Choose difficulty name color mode for forum readability
 - Use locally generated SR-colored mode icons

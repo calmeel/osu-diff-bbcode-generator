@@ -30,6 +30,20 @@ const elements = {
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
   stripManiaKeyPrefix: document.getElementById("strip-mania-key-prefix"),
+  extraCreditInputs: {
+    hitsound: {
+      username: document.getElementById("hitsound-username"),
+      userId: document.getElementById("hitsound-user-id"),
+    },
+    storyboard: {
+      username: document.getElementById("storyboard-username"),
+      userId: document.getElementById("storyboard-user-id"),
+    },
+    skin: {
+      username: document.getElementById("skin-username"),
+      userId: document.getElementById("skin-user-id"),
+    },
+  },
 };
 
 let latestDiffs = [];
@@ -55,6 +69,10 @@ elements.showHostAsMe.addEventListener("change", saveSettings);
 elements.stripGuestOwnerPrefix.addEventListener("change", saveSettings);
 elements.stripManiaKeyPrefix.addEventListener("change", saveSettings);
 elements.textColorMode.addEventListener("change", saveSettings);
+for (const input of getExtraCreditInputElements()) {
+  input.addEventListener("input", refreshGeneratedOutput);
+  input.addEventListener("input", saveSettings);
+}
 
 applyLanguage();
 setStatus("ready");
@@ -209,6 +227,7 @@ function getBBCodeOptions() {
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
     stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
     textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
+    extraCredits: getExtraCredits(),
   };
 }
 
@@ -230,6 +249,9 @@ function loadSettings() {
   setCheckboxValue(elements.showHostAsMe, settings.showHostAsMe);
   setCheckboxValue(elements.stripGuestOwnerPrefix, settings.stripGuestOwnerPrefix);
   setCheckboxValue(elements.stripManiaKeyPrefix, settings.stripManiaKeyPrefix);
+  setExtraCreditValue("hitsound", settings.extraCredits?.hitsound);
+  setExtraCreditValue("storyboard", settings.extraCredits?.storyboard);
+  setExtraCreditValue("skin", settings.extraCredits?.skin);
 }
 
 function readStoredSettings() {
@@ -250,6 +272,7 @@ function saveSettings() {
       showHostAsMe: elements.showHostAsMe?.checked ?? true,
       stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
       stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
+      extraCredits: getExtraCreditsForStorage(),
     }));
   }
   catch (err) {
@@ -265,6 +288,66 @@ function setCheckboxValue(checkbox, value) {
   if (typeof value === "boolean") {
     checkbox.checked = value;
   }
+}
+
+function getExtraCredits() {
+  return [
+    getExtraCredit("hitsound", "Hitsounds"),
+    getExtraCredit("storyboard", "Storyboard"),
+    getExtraCredit("skin", "Skin"),
+  ].filter(Boolean);
+}
+
+function getExtraCredit(key, label) {
+  const username = elements.extraCreditInputs[key].username.value.trim();
+  const userId = extractUserId(elements.extraCreditInputs[key].userId.value.trim());
+
+  if (!username) {
+    return null;
+  }
+
+  return {
+    label,
+    username,
+    userId: /^\d+$/.test(userId) ? userId : "",
+  };
+}
+
+function extractUserId(value) {
+  const trimmed = value.trim();
+
+  if (/^\d+$/.test(trimmed)) {
+    return trimmed;
+  }
+
+  const match = trimmed.match(/osu\.ppy\.sh\/users\/(\d+)/i);
+  return match ? match[1] : "";
+}
+
+function getExtraCreditsForStorage() {
+  return Object.fromEntries(
+    Object.entries(elements.extraCreditInputs).map(([key, inputs]) => [
+      key,
+      {
+        username: inputs.username.value,
+        userId: inputs.userId.value,
+      },
+    ]),
+  );
+}
+
+function setExtraCreditValue(key, value) {
+  if (!value) {
+    return;
+  }
+
+  elements.extraCreditInputs[key].username.value = value.username || "";
+  elements.extraCreditInputs[key].userId.value = value.userId || "";
+}
+
+function getExtraCreditInputElements() {
+  return Object.values(elements.extraCreditInputs)
+    .flatMap(inputs => [inputs.username, inputs.userId]);
 }
 
 function renderPreview(diffs) {

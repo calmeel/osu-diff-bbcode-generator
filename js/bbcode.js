@@ -19,6 +19,12 @@ export function generateBBCode(diffs, options) {
     sections.push(lines.join("\n"));
   }
 
+  const extraCreditLines = formatExtraCreditLines(options.extraCredits || []);
+
+  if (extraCreditLines.length) {
+    sections.push(extraCreditLines.join("\n"));
+  }
+
   return sections.join("\n\n");
 }
 
@@ -68,6 +74,28 @@ function stripManiaKeyPrefixFromDifficultyName(difficultyName) {
 
 function formatDiffIcon(diff) {
   return `[img]${generateIconUrl(diff.mode, diff.starRating, CONFIG.bbcodeIconBaseUrl)}[/img]`;
+}
+
+function formatExtraCreditLines(extraCredits) {
+  return extraCredits
+    .filter(credit => credit.username)
+    .map(credit => (
+      formatExtraCreditIcon() +
+      `[b][color=#aaaaaa] ${credit.label}[/color][/b]` +
+      ` by ${formatCreditMapperText(credit)}`
+    ));
+}
+
+function formatExtraCreditIcon() {
+  return `[img]${generateIconUrl("osu", 0, CONFIG.bbcodeIconBaseUrl)}[/img]`;
+}
+
+function formatCreditMapperText(credit) {
+  if (credit.userId) {
+    return `[profile=${credit.userId}]${credit.username}[/profile]`;
+  }
+
+  return credit.username;
 }
 
 function formatDiffColor(diff) {
