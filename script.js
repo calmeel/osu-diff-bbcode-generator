@@ -23,6 +23,9 @@ const elements = {
   language: document.getElementById("language"),
   languageButtons: document.querySelectorAll(".language-btn"),
   guideLink: document.getElementById("guide-link"),
+  updateLogBtn: document.getElementById("update-log-btn"),
+  updateLogModal: document.getElementById("update-log-modal"),
+  updateLogClose: document.getElementById("update-log-close"),
   textColorMode: document.getElementById("text-color-mode"),
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
@@ -37,6 +40,10 @@ loadSettings();
 
 elements.generateBtn.addEventListener("click", handleGenerate);
 elements.copyBtn.addEventListener("click", handleCopy);
+elements.updateLogBtn.addEventListener("click", openUpdateLog);
+elements.updateLogClose.addEventListener("click", closeUpdateLog);
+elements.updateLogModal.addEventListener("click", handleUpdateLogBackdropClick);
+document.addEventListener("keydown", handleDocumentKeydown);
 for (const button of elements.languageButtons) {
   button.addEventListener("click", handleLanguageButtonClick);
 }
@@ -105,6 +112,28 @@ function handleLanguageChange() {
   saveSettings();
   refreshGeneratedOutput();
   setStatus(latestStatusKey, ...latestStatusArgs);
+}
+
+function openUpdateLog() {
+  elements.updateLogModal.classList.remove("is-hidden");
+  elements.updateLogClose.focus();
+}
+
+function closeUpdateLog() {
+  elements.updateLogModal.classList.add("is-hidden");
+  elements.updateLogBtn.focus();
+}
+
+function handleUpdateLogBackdropClick(event) {
+  if (event.target.hasAttribute("data-update-log-close")) {
+    closeUpdateLog();
+  }
+}
+
+function handleDocumentKeydown(event) {
+  if (event.key === "Escape" && !elements.updateLogModal.classList.contains("is-hidden")) {
+    closeUpdateLog();
+  }
 }
 
 function refreshGeneratedOutput() {

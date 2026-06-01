@@ -38,6 +38,7 @@
         <a class="header-link" href="https://github.com/calmeel/osu-diff-bbcode-generator" target="_blank" rel="noopener">GitHub</a>
         <a class="header-link" id="guide-link" href="docs/guide.en.html" target="_blank" rel="noopener" data-i18n="guideLink">Guide</a>
         <a class="header-link" href="docs/color-table.html" target="_blank" rel="noopener" data-i18n="colorTableLink">Color table</a>
+        <button type="button" class="header-link" id="update-log-btn" data-i18n="updateLogLink">Update log</button>
       </nav>
     </header>
 
@@ -108,6 +109,31 @@
       <div id="status">
         Ready.
       </div>
+    </div>
+  </div>
+
+  <div class="modal is-hidden" id="update-log-modal" role="dialog" aria-modal="true" aria-labelledby="update-log-heading">
+    <div class="modal-backdrop" data-update-log-close></div>
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 id="update-log-heading" data-i18n="updateLogHeading">Update log</h2>
+        <button type="button" class="modal-close" id="update-log-close" aria-label="Close">&times;</button>
+      </div>
+
+      <ul class="update-log-list">
+        <li>
+          <time datetime="2026-05-31">2026/5/31</time>
+          <span data-i18n="updateLogProfileTag">Changed mapper profile links from [url] to [profile].</span>
+          <span class="request-credit">
+            <span data-i18n="updateLogRequestedBy">Request by</span>
+            <a href="https://osu.ppy.sh/users/10415491" target="_blank" rel="noopener">Amasugi</a>
+          </span>
+        </li>
+        <li>
+          <time datetime="2026-05-25">2026/5/25</time>
+          <span data-i18n="updateLogRelease">Released.</span>
+        </li>
+      </ul>
     </div>
   </div>
 

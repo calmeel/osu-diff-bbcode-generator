@@ -86,6 +86,8 @@ a:hover {
   border: 1px solid #333;
   background: #1b1e26;
   color: #f2f4f8;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .header-link:hover {
@@ -262,6 +264,90 @@ textarea {
   font-size: 14px;
 }
 
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.modal.is-hidden {
+  display: none;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 8, 12, 0.72);
+}
+
+.modal-panel {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 18px 20px;
+  background: #151922;
+  border: 1px solid #303747;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-close {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid #333b49;
+  border-radius: 6px;
+  background: #1b1e26;
+  color: #f2f4f8;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.update-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.update-log-list li {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 6px 12px;
+  color: #d7dbe4;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.update-log-list time {
+  color: #9ca4b3;
+  font-variant-numeric: tabular-nums;
+}
+
+.request-credit {
+  grid-column: 2;
+  color: #9ca4b3;
+  font-size: 12px;
+}
+
 .mode-section {
   width: 100%;
   margin-bottom: 18px;
@@ -319,5 +405,13 @@ textarea {
   .input-section button,
   #copy-btn {
     width: 100%;
+  }
+
+  .update-log-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .request-credit {
+    grid-column: 1;
   }
 }
