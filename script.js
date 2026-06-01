@@ -12,6 +12,7 @@ import {
 import { getDiffSections } from "./js/sections.js";
 
 const STORAGE_KEY = "osu-diff-bbcode-generator:settings";
+const EXTRA_CREDITS_SESSION_KEY = "osu-diff-bbcode-generator:extra-credits";
 
 const elements = {
   beatmapUrl: document.getElementById("beatmap-url"),
@@ -51,6 +52,7 @@ let latestStatusKey = "ready";
 let latestStatusArgs = [];
 
 loadSettings();
+loadExtraCreditsSession();
 
 elements.generateBtn.addEventListener("click", handleGenerate);
 elements.copyBtn.addEventListener("click", handleCopy);
@@ -71,7 +73,7 @@ elements.stripManiaKeyPrefix.addEventListener("change", saveSettings);
 elements.textColorMode.addEventListener("change", saveSettings);
 for (const input of getExtraCreditInputElements()) {
   input.addEventListener("input", refreshGeneratedOutput);
-  input.addEventListener("input", saveSettings);
+  input.addEventListener("input", saveExtraCreditsSession);
 }
 
 applyLanguage();
@@ -249,9 +251,6 @@ function loadSettings() {
   setCheckboxValue(elements.showHostAsMe, settings.showHostAsMe);
   setCheckboxValue(elements.stripGuestOwnerPrefix, settings.stripGuestOwnerPrefix);
   setCheckboxValue(elements.stripManiaKeyPrefix, settings.stripManiaKeyPrefix);
-  setExtraCreditValue("hitsound", settings.extraCredits?.hitsound);
-  setExtraCreditValue("storyboard", settings.extraCredits?.storyboard);
-  setExtraCreditValue("skin", settings.extraCredits?.skin);
 }
 
 function readStoredSettings() {
@@ -272,11 +271,44 @@ function saveSettings() {
       showHostAsMe: elements.showHostAsMe?.checked ?? true,
       stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
       stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
-      extraCredits: getExtraCreditsForStorage(),
     }));
   }
   catch (err) {
     console.warn("Failed to save settings.", err);
+  }
+}
+
+function loadExtraCreditsSession() {
+  const extraCredits = readStoredExtraCreditsSession();
+
+  if (!extraCredits) {
+    return;
+  }
+
+  setExtraCreditValue("hitsound", extraCredits.hitsound);
+  setExtraCreditValue("storyboard", extraCredits.storyboard);
+  setExtraCreditValue("skin", extraCredits.skin);
+}
+
+function readStoredExtraCreditsSession() {
+  try {
+    return JSON.parse(sessionStorage.getItem(EXTRA_CREDITS_SESSION_KEY));
+  }
+  catch (err) {
+    console.warn("Failed to read session extra credits.", err);
+    return null;
+  }
+}
+
+function saveExtraCreditsSession() {
+  try {
+    sessionStorage.setItem(
+      EXTRA_CREDITS_SESSION_KEY,
+      JSON.stringify(getExtraCreditsForStorage()),
+    );
+  }
+  catch (err) {
+    console.warn("Failed to save session extra credits.", err);
   }
 }
 

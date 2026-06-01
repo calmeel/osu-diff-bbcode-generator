@@ -143,6 +143,8 @@ Optional extra credits can be added for Hitsound, Storyboard, and Skin. Each ext
 
 If the user ID/link is blank or invalid, the username is output as plain text. Extra credits use the `std/0.00.png` icon.
 
+Extra credit input values are stored in `sessionStorage`, not `localStorage`, so they survive reloads in the same tab but are cleared when the tab is closed.
+
 The `Hide osu!mania key prefix in diff names` option removes leading key markers such as `[7K] Enhance` -> `Enhance` and `7K Enhance` -> `Enhance`. It also handles guest-name variants such as `Blocko's 7K Otherworldly Judgment` -> `Blocko's Otherworldly Judgment`; if guest owner prefixes are hidden too, the same title becomes `Otherworldly Judgment`.
 
 ## Localization
