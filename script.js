@@ -427,7 +427,7 @@ function createDiffPreviewLine(diff, options) {
 
   const mapperText = document.createElement("span");
   mapperText.className = "preview-mapper";
-  mapperText.textContent = ` by ${formatMapperPreviewText(diff, options)}`;
+  mapperText.textContent = ` - ${formatMapperPreviewText(diff, options)}`;
 
   line.append(icon, difficultyName, mapperText);
 
@@ -471,7 +471,7 @@ function createExtraCreditPreviewLine(credit) {
 
   const mapperText = document.createElement("span");
   mapperText.className = "preview-mapper";
-  mapperText.textContent = ` by ${credit.username}`;
+  mapperText.textContent = ` - ${credit.username}`;
 
   line.append(icon, creditName, mapperText);
 
