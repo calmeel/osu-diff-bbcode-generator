@@ -375,6 +375,8 @@ function renderPreview(diffs) {
     section.appendChild(row);
     elements.preview.appendChild(section);
   }
+
+  renderExtraCreditPreview(options.extraCredits || []);
 }
 
 function createDiffPreviewLine(diff, options) {
@@ -396,6 +398,50 @@ function createDiffPreviewLine(diff, options) {
   mapperText.textContent = ` by ${formatMapperPreviewText(diff, options)}`;
 
   line.append(icon, difficultyName, mapperText);
+
+  return line;
+}
+
+function renderExtraCreditPreview(extraCredits) {
+  const visibleCredits = extraCredits.filter(credit => credit.username);
+
+  if (!visibleCredits.length) {
+    return;
+  }
+
+  const section = document.createElement("div");
+  section.className = "mode-section extra-credit-preview-section";
+
+  const row = document.createElement("div");
+  row.className = "diff-row";
+
+  for (const credit of visibleCredits) {
+    row.appendChild(createExtraCreditPreviewLine(credit));
+  }
+
+  section.appendChild(row);
+  elements.preview.appendChild(section);
+}
+
+function createExtraCreditPreviewLine(credit) {
+  const line = document.createElement("div");
+  line.className = "diff-preview-line";
+
+  const icon = document.createElement("img");
+  icon.className = "diff-icon";
+  icon.src = generateIconUrl("osu", 0, CONFIG.previewIconBaseUrl);
+  icon.alt = "";
+
+  const creditName = document.createElement("span");
+  creditName.className = "preview-diff-name";
+  creditName.style.color = "#aaaaaa";
+  creditName.textContent = credit.label;
+
+  const mapperText = document.createElement("span");
+  mapperText.className = "preview-mapper";
+  mapperText.textContent = ` by ${credit.username}`;
+
+  line.append(icon, creditName, mapperText);
 
   return line;
 }

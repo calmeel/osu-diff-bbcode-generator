@@ -419,6 +419,12 @@ textarea {
   margin-bottom: 18px;
 }
 
+.extra-credit-preview-section {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #2b3237;
+}
+
 .mode-title {
   margin: 8px 0 10px;
   color: #ddd;
