@@ -32,7 +32,7 @@ function formatDiffLine(diff, options) {
   return (
     formatDiffIcon(diff) +
     `[b][color=${formatDiffTextColor(diff, options)}] ${formatDifficultyName(diff, options)}[/color][/b]` +
-    ` by ${formatMapperText(diff, options)}`
+    ` - ${formatMapperText(diff, options)}`
   );
 }
 
@@ -82,7 +82,7 @@ function formatExtraCreditLines(extraCredits) {
     .map(credit => (
       formatExtraCreditIcon() +
       `[b][color=#aaaaaa] ${credit.label}[/color][/b]` +
-      ` by ${formatCreditMapperText(credit)}`
+      ` - ${formatCreditMapperText(credit)}`
     ));
 }
 
