@@ -19,3 +19,8 @@ export const TEXT_COLOR_MODES = {
   READABLE_SR: "readable-sr",
   OSU_TEXT: "osu-text",
 };
+
+export const MAPPER_CREDIT_STYLES = {
+  BY: "by",
+  DASH: "dash",
+};

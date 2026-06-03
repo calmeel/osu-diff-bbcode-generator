@@ -1,4 +1,4 @@
-import { CONFIG, TEXT_COLOR_MODES } from "./js/config.js";
+import { CONFIG, MAPPER_CREDIT_STYLES, TEXT_COLOR_MODES } from "./js/config.js";
 import { I18N } from "./js/i18n.js";
 import { fetchBeatmapset, parseBeatmapsetId } from "./js/api.js";
 import { normalizeBeatmaps } from "./js/beatmaps.js";
@@ -28,6 +28,7 @@ const elements = {
   updateLogModal: document.getElementById("update-log-modal"),
   updateLogClose: document.getElementById("update-log-close"),
   textColorMode: document.getElementById("text-color-mode"),
+  mapperCreditStyle: document.getElementById("mapper-credit-style"),
   showHostAsMe: document.getElementById("show-host-as-me"),
   stripGuestOwnerPrefix: document.getElementById("strip-guest-owner-prefix"),
   stripManiaKeyPrefix: document.getElementById("strip-mania-key-prefix"),
@@ -67,10 +68,12 @@ elements.showHostAsMe.addEventListener("change", refreshGeneratedOutput);
 elements.stripGuestOwnerPrefix.addEventListener("change", refreshGeneratedOutput);
 elements.stripManiaKeyPrefix.addEventListener("change", refreshGeneratedOutput);
 elements.textColorMode.addEventListener("change", refreshGeneratedOutput);
+elements.mapperCreditStyle.addEventListener("change", refreshGeneratedOutput);
 elements.showHostAsMe.addEventListener("change", saveSettings);
 elements.stripGuestOwnerPrefix.addEventListener("change", saveSettings);
 elements.stripManiaKeyPrefix.addEventListener("change", saveSettings);
 elements.textColorMode.addEventListener("change", saveSettings);
+elements.mapperCreditStyle.addEventListener("change", saveSettings);
 for (const input of getExtraCreditInputElements()) {
   input.addEventListener("input", refreshGeneratedOutput);
   input.addEventListener("input", saveExtraCreditsSession);
@@ -229,6 +232,7 @@ function getBBCodeOptions() {
     stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
     stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
     textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
+    mapperCreditStyle: elements.mapperCreditStyle?.value || MAPPER_CREDIT_STYLES.DASH,
     extraCredits: getExtraCredits(),
   };
 }
@@ -246,6 +250,10 @@ function loadSettings() {
 
   if (settings.textColorMode && hasSelectOption(elements.textColorMode, settings.textColorMode)) {
     elements.textColorMode.value = settings.textColorMode;
+  }
+
+  if (settings.mapperCreditStyle && hasSelectOption(elements.mapperCreditStyle, settings.mapperCreditStyle)) {
+    elements.mapperCreditStyle.value = settings.mapperCreditStyle;
   }
 
   setCheckboxValue(elements.showHostAsMe, settings.showHostAsMe);
@@ -268,6 +276,7 @@ function saveSettings() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       language: getLanguage(),
       textColorMode: elements.textColorMode?.value || TEXT_COLOR_MODES.SR,
+      mapperCreditStyle: elements.mapperCreditStyle?.value || MAPPER_CREDIT_STYLES.DASH,
       showHostAsMe: elements.showHostAsMe?.checked ?? true,
       stripGuestOwnerPrefix: elements.stripGuestOwnerPrefix?.checked || false,
       stripManiaKeyPrefix: elements.stripManiaKeyPrefix?.checked || false,
@@ -408,7 +417,7 @@ function renderPreview(diffs) {
     elements.preview.appendChild(section);
   }
 
-  renderExtraCreditPreview(options.extraCredits || []);
+  renderExtraCreditPreview(options.extraCredits || [], options);
 }
 
 function createDiffPreviewLine(diff, options) {
@@ -427,14 +436,14 @@ function createDiffPreviewLine(diff, options) {
 
   const mapperText = document.createElement("span");
   mapperText.className = "preview-mapper";
-  mapperText.textContent = ` - ${formatMapperPreviewText(diff, options)}`;
+  mapperText.textContent = formatMapperPreviewText(diff, options);
 
-  line.append(icon, difficultyName, mapperText);
+  line.append(icon, difficultyName, createMapperSeparatorPreview(options), mapperText);
 
   return line;
 }
 
-function renderExtraCreditPreview(extraCredits) {
+function renderExtraCreditPreview(extraCredits, options) {
   const visibleCredits = extraCredits.filter(credit => credit.username);
 
   if (!visibleCredits.length) {
@@ -448,14 +457,14 @@ function renderExtraCreditPreview(extraCredits) {
   row.className = "diff-row";
 
   for (const credit of visibleCredits) {
-    row.appendChild(createExtraCreditPreviewLine(credit));
+    row.appendChild(createExtraCreditPreviewLine(credit, options));
   }
 
   section.appendChild(row);
   elements.preview.appendChild(section);
 }
 
-function createExtraCreditPreviewLine(credit) {
+function createExtraCreditPreviewLine(credit, options) {
   const line = document.createElement("div");
   line.className = "diff-preview-line";
 
@@ -471,9 +480,19 @@ function createExtraCreditPreviewLine(credit) {
 
   const mapperText = document.createElement("span");
   mapperText.className = "preview-mapper";
-  mapperText.textContent = ` - ${credit.username}`;
+  mapperText.textContent = credit.username;
 
-  line.append(icon, creditName, mapperText);
+  line.append(icon, creditName, createMapperSeparatorPreview(options), mapperText);
 
   return line;
+}
+
+function createMapperSeparatorPreview(options) {
+  const separator = document.createElement("span");
+  separator.className = "preview-mapper-separator";
+  separator.textContent = options.mapperCreditStyle === MAPPER_CREDIT_STYLES.BY
+    ? " by "
+    : " - ";
+
+  return separator;
 }

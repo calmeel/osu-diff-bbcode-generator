@@ -307,7 +307,11 @@ button:hover {
 }
 
 .preview-mapper {
-  color: #c8ced8;
+  color: #9fc8d9;
+}
+
+.preview-mapper-separator {
+  color: #8f98a8;
 }
 
 textarea {

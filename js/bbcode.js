@@ -1,4 +1,4 @@
-import { CONFIG, TEXT_COLOR_MODES } from "./config.js";
+import { CONFIG, MAPPER_CREDIT_STYLES, TEXT_COLOR_MODES } from "./config.js";
 import { getDiffSections } from "./sections.js";
 import { getReadableSrColor, rgbToHex } from "./colors.js";
 
@@ -19,7 +19,7 @@ export function generateBBCode(diffs, options) {
     sections.push(lines.join("\n"));
   }
 
-  const extraCreditLines = formatExtraCreditLines(options.extraCredits || []);
+  const extraCreditLines = formatExtraCreditLines(options.extraCredits || [], options);
 
   if (extraCreditLines.length) {
     sections.push(extraCreditLines.join("\n"));
@@ -32,7 +32,7 @@ function formatDiffLine(diff, options) {
   return (
     formatDiffIcon(diff) +
     `[b][color=${formatDiffTextColor(diff, options)}] ${formatDifficultyName(diff, options)}[/color][/b]` +
-    ` - ${formatMapperText(diff, options)}`
+    `${formatMapperSeparator(options)}${formatMapperText(diff, options)}`
   );
 }
 
@@ -76,13 +76,13 @@ function formatDiffIcon(diff) {
   return `[img]${generateIconUrl(diff.mode, diff.starRating, CONFIG.bbcodeIconBaseUrl)}[/img]`;
 }
 
-function formatExtraCreditLines(extraCredits) {
+function formatExtraCreditLines(extraCredits, options) {
   return extraCredits
     .filter(credit => credit.username)
     .map(credit => (
       formatExtraCreditIcon() +
       `[b][color=#aaaaaa] ${credit.label}[/color][/b]` +
-      ` - ${formatCreditMapperText(credit)}`
+      `${formatMapperSeparator(options)}${formatCreditMapperText(credit)}`
     ));
 }
 
@@ -96,6 +96,14 @@ function formatCreditMapperText(credit) {
   }
 
   return credit.username;
+}
+
+function formatMapperSeparator(options = {}) {
+  if (options.mapperCreditStyle === MAPPER_CREDIT_STYLES.BY) {
+    return " by ";
+  }
+
+  return "[color=#aaaaaa] - [/color]";
 }
 
 function formatDiffColor(diff) {

@@ -135,6 +135,8 @@ Host diffs can be rendered as `me` or as the host username profile link by toggl
 
 Mapper links use osu!'s `[profile=user_id]username[/profile]` BBCode when both user ID and username are available. If a mapper ID is missing, the formatter falls back to `[url=...]username[/url]`.
 
+Mapper credits can use either `by` or a dash separator. The dash style outputs the separator as `[color=#aaaaaa] - [/color]` in BBCode and uses a muted gray separator in the preview.
+
 Optional extra credits can be added for Hitsound, Storyboard, and Skin. Each extra credit accepts one username and one optional user ID or osu! user profile URL. Filled entries are appended after the full difficulty output with one blank line before them:
 
 ```text
